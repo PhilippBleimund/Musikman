@@ -1,7 +1,10 @@
 package Dinkel.Musikman.Commands;
 
-import Dinkel.Musikman.CommandHelper;
+import java.util.List;
+
 import Dinkel.Musikman.Musikman_Main;
+import Dinkel.Musikman.Manager.Command;
+import Dinkel.Musikman.Manager.TicketManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -10,8 +13,8 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class join extends CommandHelper {
-	public void commandCode(GuildMessageReceivedEvent eventMessage) {
+public class join extends Command {
+	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args, TicketManager ticketManager) {
 		TextChannel channel = eventMessage.getChannel();
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
