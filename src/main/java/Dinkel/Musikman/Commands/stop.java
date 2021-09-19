@@ -1,10 +1,8 @@
 package Dinkel.Musikman.Commands;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
-import Dinkel.Musikman.Musikman_Main;
+import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.TicketManager;
@@ -13,17 +11,11 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class play extends Command{
+public class stop extends Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		TextChannel channel = eventMessage.getChannel();
-		
-		if(args.isEmpty()) {
-			channel.sendMessage("add arguments").queue();
-			return;
-		}
-		
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
@@ -41,30 +33,21 @@ public class play extends Command{
 		}
 		
 		if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-			channel.sendMessage("we are not in the same voice channel");
+			channel.sendMessage("we are not in the same voice channel").queue();
 			return;
 		}
 		
-		String link = String.join(" ", args);
+		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
 		
-		if(!isURL(link)) {
-			link = "ytsearch:" + link;
-		}
+		musicManager.scheduler.player.stopTrack();
+		musicManager.scheduler.queue.clear();
 		
-		PlayerManager.getInstance().loadAndPlay(channel, link);
+		channel.sendMessage("stoped the music and cleared the queue").queue();
 	}
 
 	@Override
 	public String getName() {
-		return "play";
+		return "stop";
 	}
 
-	private boolean isURL(String url) {
-		try {
-			new URI(url);
-			return true;
-		}catch(URISyntaxException e) {
-			return false;
-		}
-	}
 }

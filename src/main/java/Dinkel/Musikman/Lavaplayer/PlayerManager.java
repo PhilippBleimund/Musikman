@@ -42,7 +42,7 @@ public class PlayerManager {
         });
 	}
 	
-	public void loadAndPlay(TextChannel channel, String trackURL, TicketManager ticketManager) {
+	public void loadAndPlay(TextChannel channel, String trackURL) {
 		GuildMusicManager musicManager = this.getMusikManager(channel.getGuild());
 		
 		this.audioPlayerManager.loadItemOrdered(musicManager, trackURL, new AudioLoadResultHandler() {
@@ -63,7 +63,7 @@ public class PlayerManager {
 			public void playlistLoaded(AudioPlaylist playlist) {
 				List<AudioTrack> tracks = playlist.getTracks();
 				
-				/*if(trackURL.startsWith("ytsearch:")) {
+				if(trackURL.startsWith("ytsearch:")) {
 					channel.sendMessage("`Warning` search is playlist with `")
 						.append(String.valueOf(tracks.size()))
 						.append("` Titles. do you want to add?")
@@ -71,10 +71,10 @@ public class PlayerManager {
 							message.addReaction("👍").queue();
 							message.addReaction("👎").queue();
 							long messageId = message.getIdLong();
-							ticketManager.addTicket(new playlistTicket(tracks, messageId, musicManager));
+							TicketManager.getInstance().addTicket(new playlistTicket(playlist, messageId, musicManager));
 						});
 					return;
-				}*/
+				}
 				
 				
 				channel.sendMessage("Adding to queue: `")

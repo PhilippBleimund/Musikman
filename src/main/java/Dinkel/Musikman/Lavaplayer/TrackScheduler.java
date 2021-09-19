@@ -11,8 +11,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
 public class TrackScheduler extends AudioEventAdapter {
 	
-	private AudioPlayer player;
-	private BlockingQueue<AudioTrack> queue;
+	public AudioPlayer player;
+	public BlockingQueue<AudioTrack> queue;
 
 	public TrackScheduler(AudioPlayer player) {
 		this.player = player;

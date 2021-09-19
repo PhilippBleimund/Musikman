@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class help extends Command {
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args, TicketManager ticketManager) {
+	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		EmbedBuilder help = new EmbedBuilder();
 		help.setTitle("help for Musikman");
 		help.appendDescription("!play --> play Song");

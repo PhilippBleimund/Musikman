@@ -3,16 +3,18 @@ package Dinkel.Musikman.Manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class TicketManager extends ListenerAdapter{
 
+	public static TicketManager INSTANCE;
+	
 	private List<PollTicket> tickets = new ArrayList<PollTicket>();
 	
 	public void addTicket(PollTicket ticket) {
 		tickets.add(ticket);
-		System.out.println("hehe");
 	}
 	
 	public void removeTicket(PollTicket ticket) {
@@ -20,10 +22,19 @@ public class TicketManager extends ListenerAdapter{
 	}
 	
 	public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent reactionEvent) {
+		System.out.println("reactionAdd");
 		for(PollTicket t : tickets) {
 			if(t.isRightTicket(reactionEvent)) {
 				t.TicketCode(reactionEvent);
 			}
 		}
+	}
+	
+	public static TicketManager getInstance() {
+		if(INSTANCE == null) {
+			INSTANCE = new TicketManager();
+		}
+		
+		return INSTANCE;
 	}
 }

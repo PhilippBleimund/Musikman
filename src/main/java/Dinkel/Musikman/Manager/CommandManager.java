@@ -13,14 +13,8 @@ public class CommandManager extends ListenerAdapter {
 	
 	List<Command> commands = new ArrayList<Command>();
 	
-	private TicketManager ticketManager;
-	
 	public void addCommand(Command command) {
 		commands.add(command);
-	}
-	
-	public void setTicketManager(TicketManager ticketManager) {
-		this.ticketManager = ticketManager;
 	}
 	
 	public void onGuildMessageReceived(GuildMessageReceivedEvent eventMessage) {
@@ -32,7 +26,7 @@ public class CommandManager extends ListenerAdapter {
 		for(Command c : commands) {
 			if(eventMessage.getMessage().getContentRaw().split("\\s+")[0].equalsIgnoreCase(Musikman_Main.prefix + c.getName())) {
 				
-				c.commandCode(eventMessage, argsList, ticketManager);
+				c.commandCode(eventMessage, argsList);
 			}
 				
 		}
