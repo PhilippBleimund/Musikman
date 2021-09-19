@@ -4,7 +4,12 @@ import javax.security.auth.login.LoginException;
 
 import Dinkel.Musikman.Commands.help;
 import Dinkel.Musikman.Commands.join;
+import Dinkel.Musikman.Commands.leave;
+import Dinkel.Musikman.Commands.nowPlaying;
 import Dinkel.Musikman.Commands.play;
+import Dinkel.Musikman.Commands.queue;
+import Dinkel.Musikman.Commands.repeat;
+import Dinkel.Musikman.Commands.skip;
 import Dinkel.Musikman.Commands.stop;
 import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.TicketManager;
@@ -35,6 +40,11 @@ public class Musikman_Main {
 		manager.addCommand(new join());
 		manager.addCommand(new play());
 		manager.addCommand(new stop());
+		manager.addCommand(new skip());
+		manager.addCommand(new nowPlaying());
+		manager.addCommand(new queue());
+		manager.addCommand(new repeat());
+		manager.addCommand(new leave() );
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 	}
