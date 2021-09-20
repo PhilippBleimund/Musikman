@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import Dinkel.Musikman.Manager.PollTicket;
+import Dinkel.Musikman.Manager.TicketManager;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.utils.AttachmentOption;
 
@@ -50,6 +51,7 @@ public class queueTXTTicket extends PollTicket{
 			}
 			byte[] bytes = baos.toByteArray();
 			reactionEvent.getChannel().sendFile(bytes, "queue"+ new SimpleDateFormat("yyyy-MM-dd-HH:mm").format(new Date()) +".txt").queue();
+			TicketManager.getInstance().removeTicket(this);
 		}
 	}
 	

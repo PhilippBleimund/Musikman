@@ -13,6 +13,7 @@ import Dinkel.Musikman.Commands.play;
 import Dinkel.Musikman.Commands.queue;
 import Dinkel.Musikman.Commands.repeat;
 import Dinkel.Musikman.Commands.restart;
+import Dinkel.Musikman.Commands.rule34random;
 import Dinkel.Musikman.Commands.skip;
 import Dinkel.Musikman.Commands.stop;
 import Dinkel.Musikman.Manager.CommandManager;
@@ -53,6 +54,7 @@ public class Musikman_Main {
 		manager.addCommand(new leave());
 		manager.addCommand(new pause());
 		manager.addCommand(new restart());
+		manager.addCommand(new rule34random());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		try {
