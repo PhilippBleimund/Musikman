@@ -12,6 +12,7 @@ import Dinkel.Musikman.Commands.pause;
 import Dinkel.Musikman.Commands.play;
 import Dinkel.Musikman.Commands.queue;
 import Dinkel.Musikman.Commands.repeat;
+import Dinkel.Musikman.Commands.restart;
 import Dinkel.Musikman.Commands.skip;
 import Dinkel.Musikman.Commands.stop;
 import Dinkel.Musikman.Manager.CommandManager;
@@ -33,7 +34,7 @@ public class Musikman_Main {
 	
 	public static void main(String[] args) throws LoginException {
 		// TODO Auto-generated method stub
-		new Musikman_Main(new String[]{"hello"});
+		new Musikman_Main(new String[]{});
 	}
 	
 	public Musikman_Main(String[] args) throws LoginException {
@@ -51,6 +52,7 @@ public class Musikman_Main {
 		manager.addCommand(new repeat());
 		manager.addCommand(new leave());
 		manager.addCommand(new pause());
+		manager.addCommand(new restart());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		try {
@@ -59,7 +61,7 @@ public class Musikman_Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(args[0] != null) {
+		if(args.length != 0) {
 			TextChannel channel = jda.getTextChannelById(args[0]);
 			channel.sendMessage("im back on");
 		}
