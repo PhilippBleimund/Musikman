@@ -29,12 +29,11 @@ public class queueTXTTicket extends PollTicket{
 	@Override
 	public void TicketCode(GuildMessageReactionAddEvent reactionEvent) {
 		if(reactionEvent.getReactionEmote().getEmoji().equals("⏬")) {
-			System.out.println("helo");
 			List<String> lines = new ArrayList<String>();
 			for(int i=0;i<trackList.size();i++) {
 				AudioTrack track = trackList.get(i);
 				String line = "#";
-				line = line + String.valueOf(i + 1);
+				line = line + i+1;
 				line = line + " '" + track.getInfo().title + "'";
 				line = line + " by " + track.getInfo().author;
 				line = line + " [" + formatTime(track.getDuration()) + "]\n";
