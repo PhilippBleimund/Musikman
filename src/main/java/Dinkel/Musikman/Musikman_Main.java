@@ -35,7 +35,7 @@ public class Musikman_Main {
 		jda = JDABuilder.createDefault(Secret.Token).build();
 		jda.getPresence().setStatus(OnlineStatus.IDLE);
 		
-		CommandManager manager = new CommandManager();
+		CommandManager manager = CommandManager.getInstance();
 		manager.addCommand(new help());
 		manager.addCommand(new join());
 		manager.addCommand(new play());

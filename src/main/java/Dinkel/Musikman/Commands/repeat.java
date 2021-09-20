@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class repeat extends Command{
+public class repeat implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -45,8 +45,13 @@ public class repeat extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "repeat";
+	public String[] getNames() {
+		return new String[]{"reapeat"};
+	}
+
+	@Override
+	public String getDescription() {
+		return "reapeates the current playing title";
 	}
 
 }

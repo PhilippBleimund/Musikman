@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class skip extends Command{
+public class skip implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -51,8 +51,13 @@ public class skip extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "skip";
+	public String[] getNames() {
+		return new String[]{"skip", "s"};
+	}
+
+	@Override
+	public String getDescription() {
+		return "skips the cuurent track";
 	}
 
 }

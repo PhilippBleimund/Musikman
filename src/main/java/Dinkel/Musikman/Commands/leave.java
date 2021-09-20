@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class leave extends Command{
+public class leave implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -51,8 +51,14 @@ public class leave extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "leave";
+	public String[] getNames() {
+		return new String[]{"leave", "l"};
 	}
 
+	@Override
+	public String getDescription() {
+		return "leaves the current voice channel";
+	}
+
+	
 }

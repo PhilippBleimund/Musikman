@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class play extends Command{
+public class play implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -55,8 +55,8 @@ public class play extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "play";
+	public String[] getNames() {
+		return new String[]{"play", "p"};
 	}
 
 	private boolean isURL(String url) {
@@ -66,5 +66,10 @@ public class play extends Command{
 		}catch(URISyntaxException e) {
 			return false;
 		}
+	}
+
+	@Override
+	public String getDescription() {
+		return "plays a song or playlist from the link or argument --> !play [arg]";
 	}
 }

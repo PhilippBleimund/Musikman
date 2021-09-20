@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class stop extends Command{
+public class stop implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -44,10 +44,15 @@ public class stop extends Command{
 		
 		channel.sendMessage("stoped the music and cleared the queue").queue();
 	}
+	
+	@Override
+	public String[] getNames() {
+		return new String[]{"stop", "reset"};
+	}
 
 	@Override
-	public String getName() {
-		return "stop";
+	public String getDescription() {
+		return "remove all tracks and clear current track";
 	}
 
 }

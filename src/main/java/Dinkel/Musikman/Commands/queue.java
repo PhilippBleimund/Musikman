@@ -11,11 +11,13 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
+import Dinkel.Musikman.Manager.TicketManager;
+import Dinkel.Musikman.Tickets.queueTXTTicket;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
-public class queue extends Command{
+public class queue implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -48,9 +50,16 @@ public class queue extends Command{
 		}
 		
 		if(trackList.size() > trackCount) {
-			messageAction.append("And")
+			messageAction.append("And `")
 				.append(String.valueOf(trackList.size() - trackCount))
 				.append("` more...");
+			messageAction.queue(message -> {
+				message.addReaction("⏬").queue();
+				System.out.println("moin");
+				TicketManager.getInstance().addTicket(new queueTXTTicket(message.getIdLong(), trackList));
+			});
+		}else {
+			messageAction.queue();
 		}
 	}
 	
@@ -63,8 +72,13 @@ public class queue extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "queue";
+	public String[] getNames() {
+		return new String[]{"queue", "q"};
+	}
+
+	@Override
+	public String getDescription() {
+		return "shows the queue";
 	}
 
 }

@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class TicketManager extends ListenerAdapter{
 
-	public static TicketManager INSTANCE;
+	private static TicketManager INSTANCE;
 	
 	private List<PollTicket> tickets = new ArrayList<PollTicket>();
 	

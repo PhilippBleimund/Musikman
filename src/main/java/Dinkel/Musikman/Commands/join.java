@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class join extends Command {
+public class join implements Command {
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		TextChannel channel = eventMessage.getChannel();
 		Member self = eventMessage.getGuild().getSelfMember();
@@ -40,8 +40,13 @@ public class join extends Command {
 	}
 
 	@Override
-	public String getName() {
-		return "join";
+	public String[] getNames() {
+		return new String[]{"join", "j"};
+	}
+
+	@Override
+	public String getDescription() {
+		return "join the voice channel of the user";
 	}
 
 }

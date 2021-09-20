@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class nowPlaying extends Command{
+public class nowPlaying implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -55,8 +55,13 @@ public class nowPlaying extends Command{
 	}
 
 	@Override
-	public String getName() {
-		return "nowPlaying";
+	public String[] getNames() {
+		return new String[]{"nowPlaying", "np"};
+	}
+
+	@Override
+	public String getDescription() {
+		return "sends the current playing song";
 	}
 
 }
