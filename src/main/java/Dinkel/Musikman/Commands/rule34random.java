@@ -28,42 +28,44 @@ public class rule34random implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		int trackCount = Math.min((args.size() != 0) ? Integer.parseInt(args.get(0)) : 1, 7);
-		for(int i=0;i<trackCount;i++) {
-			try {
-				URLConnection con = new URL( "https://rule34.xxx/index.php?page=post&s=random" ).openConnection();
-				System.out.println( "orignal url: " + con.getURL() );
-				con.connect();
-				System.out.println( "connected url: " + con.getURL() );
-				InputStream is = con.getInputStream();
-				System.out.println( "redirected url: " + con.getURL() );
-				is.close();
-				Document doc = Jsoup.connect(con.getURL().toString()).timeout(60000).maxBodySize(0).get();
-				//System.out.println(doc);
-				Elements element = doc.getElementsByAttribute("content");
-				//System.out.println(element);
-				Element element2 = element.get(6);
-				System.out.println(element2);
-				String attr = element2.attr("content");
-				System.out.println(attr);
-				
-				URL url = new URL(attr);
-				BufferedImage image = ImageIO.read(url);
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				  ImageIO.write(image, "jpg", baos);
-				  byte[] bytes = baos.toByteArray();
-				if(bytes.length > 8388608)
-					i--;
-				  
-				eventMessage.getChannel().sendMessage("( ͡° ͜ʖ ͡°)").addFile(bytes, "rule34.jpg", AttachmentOption.SPOILER).queue(message -> {
-					message.addReaction("❌").queue();
-					TicketManager.getInstance().addTicket(new deleteMessage(message.getIdLong(), eventMessage.getMessageIdLong()));
-				});
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		eventMessage.getChannel().sendMessage("( ͡° ͜ʖ ͡°)").addFile(getRule34Image(), "rule34.jpg", AttachmentOption.SPOILER).queue(message -> {
+			message.addReaction("❌").queue();
+			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));
+		});
+	}
+	
+	private String getRule34ImageURL() {
+		try {
+			URLConnection con = new URL( "https://rule34.xxx/index.php?page=post&s=random" ).openConnection();
+			con.connect();
+			InputStream is = con.getInputStream();
+			is.close();
+			Document doc = Jsoup.connect(con.getURL().toString()).timeout(60000).maxBodySize(0).get();
+			Elements element = doc.getElementsByAttribute("content");
+			Element element2 = element.get(6);
+			String attr = element2.attr("content");
+			if(attr == null || attr == "")
+				return getRule34ImageURL();
+			return attr;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private byte[] getRule34Image() {
+		try {
+			URL url = new URL(getRule34ImageURL());
+			BufferedImage image = ImageIO.read(url);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(image, "jpg", baos);
+			byte[] bytes = baos.toByteArray();
+			if(bytes.length > 8388608 && bytes.length < 10)
+				return getRule34Image();
+			return bytes;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

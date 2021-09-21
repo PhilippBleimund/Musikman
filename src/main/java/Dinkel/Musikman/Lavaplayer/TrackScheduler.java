@@ -1,5 +1,8 @@
 package Dinkel.Musikman.Lavaplayer;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -13,11 +16,14 @@ public class TrackScheduler extends AudioEventAdapter {
 	
 	public AudioPlayer player;
 	public BlockingQueue<AudioTrack> queue;
+	public List<AudioTrack> loopingQueue;
 	public boolean repeating = false;
+	public boolean loopQueue = false;
 
 	public TrackScheduler(AudioPlayer player) {
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<AudioTrack>();
+		this.loopingQueue = new ArrayList<AudioTrack>();
 	}
 	
 	public void queue(AudioTrack track) {
@@ -27,7 +33,10 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 	
 	public void nextTrack() {
-		this.player.startTrack(this.queue.poll(), false);
+		if(loopQueue) {
+			
+		}else
+			this.player.startTrack(this.queue.poll(), false);
 	}
 	  
 	@Override

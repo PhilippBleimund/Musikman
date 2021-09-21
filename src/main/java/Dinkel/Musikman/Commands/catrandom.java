@@ -19,20 +19,25 @@ public class catrandom implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		URL url;
+		eventMessage.getChannel().sendMessage("ʕ•́ᴥ•̀ʔっ♡").addFile(getRandomCat(), "rule34.jpg").queue(message -> {
+			message.addReaction("❌").queue();
+			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));
+		});
+	}
+	
+	public byte[] getRandomCat() {
 		try {
-			url = new URL("https://cataas.com/cat");
+			URL url = new URL("https://cataas.com/cat");
 			BufferedImage image = ImageIO.read(url);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image, "jpg", baos);
 			byte[] bytes = baos.toByteArray();
-			eventMessage.getChannel().sendMessage("ʕ•́ᴥ•̀ʔっ♡").addFile(bytes, "rule34.jpg", AttachmentOption.SPOILER).queue(message -> {
-				message.addReaction("❌").queue();
-				TicketManager.getInstance().addTicket(new deleteMessage(message.getIdLong(), eventMessage.getMessageIdLong()));
-			});
+			if(bytes.length > 8388608 && bytes.length < 10)
+				return getRandomCat();
+			return bytes;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 	}
 

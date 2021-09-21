@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
+import Dinkel.Musikman.Commands.catrandom;
 import Dinkel.Musikman.Commands.help;
 import Dinkel.Musikman.Commands.join;
 import Dinkel.Musikman.Commands.leave;
@@ -55,6 +56,7 @@ public class Musikman_Main {
 		manager.addCommand(new pause());
 		manager.addCommand(new restart());
 		manager.addCommand(new rule34random());
+		manager.addCommand(new catrandom());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		try {
