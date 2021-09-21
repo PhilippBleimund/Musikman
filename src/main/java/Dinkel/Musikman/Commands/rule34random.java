@@ -76,7 +76,13 @@ public class rule34random implements Command{
 
 	@Override
 	public String getDescription() {
-		return "a random rule 34 image --> !rule34 [imageCount]";
+		return "a random rule 34 image";
+	}
+
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

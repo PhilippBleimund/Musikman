@@ -64,4 +64,10 @@ public class nowPlaying implements Command{
 		return "sends the current playing song";
 	}
 
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

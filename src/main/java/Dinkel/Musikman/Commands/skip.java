@@ -3,6 +3,8 @@ package Dinkel.Musikman.Commands;
 import java.util.List;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
@@ -46,8 +48,23 @@ public class skip implements Command{
 			return;
 		}
 		
-		musicManager.scheduler.nextTrack();
-		channel.sendMessage("current track skipped").queue();
+		if(args.size() <= 0) {
+			musicManager.scheduler.nextTrack();
+			channel.sendMessage("current track skipped").queue();			
+		}else {
+			int position = Integer.valueOf(args.get(0));
+			if(musicManager.scheduler.queue.size() > position || musicManager.scheduler.queue.size() <= 0) {
+				channel.sendMessage("track " + "#" + position + " is not on queue");
+				return;
+			}else {
+				for(int i=0;i<position;i++) {
+					musicManager.scheduler.nextTrack();
+				}
+				AudioTrack track = audioPlayer.getPlayingTrack();
+				AudioTrackInfo info = track.getInfo();
+				channel.sendMessage("skiped to `" + info.title + "`");
+			}
+		}
 	}
 
 	@Override
@@ -58,6 +75,11 @@ public class skip implements Command{
 	@Override
 	public String getDescription() {
 		return "skips the cuurent track";
+	}
+
+	@Override
+	public String[] getArgs() {
+		return new String[] {"[queue id]"};
 	}
 
 }

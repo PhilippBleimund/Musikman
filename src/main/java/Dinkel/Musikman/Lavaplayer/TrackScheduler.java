@@ -1,6 +1,7 @@
 package Dinkel.Musikman.Lavaplayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -16,14 +17,14 @@ public class TrackScheduler extends AudioEventAdapter {
 	
 	public AudioPlayer player;
 	public BlockingQueue<AudioTrack> queue;
-	public List<AudioTrack> loopingQueue;
+	public BlockingQueue<AudioTrack> loopingQueue;
 	public boolean repeating = false;
-	public boolean loopQueue = false;
+	private boolean loopQueue = false;
 
 	public TrackScheduler(AudioPlayer player) {
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<AudioTrack>();
-		this.loopingQueue = new ArrayList<AudioTrack>();
+		this.loopingQueue = new LinkedBlockingQueue<AudioTrack>();
 	}
 	
 	public void queue(AudioTrack track) {
@@ -32,9 +33,34 @@ public class TrackScheduler extends AudioEventAdapter {
 		}
 	}
 	
+	public void shuffleQueue() {
+		List<AudioTrack> tracks = new ArrayList<AudioTrack>();
+		for(AudioTrack t : queue) {
+			tracks.add(t);
+		}
+		Collections.shuffle(tracks);
+		queue.clear();
+		queue = new LinkedBlockingQueue<AudioTrack>(tracks);
+		if(loopQueue) {
+			loopQueue();
+		}
+	}
+	
+	public void loopQueue() {
+		loopQueue = true;
+		loopingQueue = new LinkedBlockingQueue<AudioTrack>(queue);
+	}
+	
+	public void loopOffQueue() {
+		loopQueue = false;
+		loopingQueue = null;
+	}
+	
 	public void nextTrack() {
 		if(loopQueue) {
-			
+			AudioTrack track = loopingQueue.poll();
+			this.player.startTrack(track, false);
+			loopingQueue.add(track.makeClone());
 		}else
 			this.player.startTrack(this.queue.poll(), false);
 	}

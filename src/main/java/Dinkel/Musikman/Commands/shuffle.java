@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class loopQueue implements Command{
+public class shuffle implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -37,17 +37,23 @@ public class loopQueue implements Command{
 		}
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-		musicManager.scheduler.
+		musicManager.scheduler.shuffleQueue();
+		channel.sendMessage("queue got shuffled");
 	}
 
 	@Override
 	public String[] getNames() {
-		return new String[] {"loopqueue"};
+		return new String[] {"shuffle"};
+	}
+
+	@Override
+	public String[] getArgs() {
+		return null;
 	}
 
 	@Override
 	public String getDescription() {
-		return "loops the cuurent queue";
+		return "shuffle the current queue";
 	}
 
 }

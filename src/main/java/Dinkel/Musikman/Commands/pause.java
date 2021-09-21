@@ -59,4 +59,10 @@ public class pause implements Command{
 		return "pauses or resumes the current playing song";
 	}
 
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

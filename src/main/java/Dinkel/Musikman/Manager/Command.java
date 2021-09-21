@@ -10,5 +10,7 @@ public interface Command {
 	
 	public abstract String[] getNames();
 	
+	public abstract String[] getArgs();
+	
 	public abstract String getDescription();
 }

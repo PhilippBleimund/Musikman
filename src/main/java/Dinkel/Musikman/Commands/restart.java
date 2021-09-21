@@ -59,4 +59,10 @@ public class restart implements Command{
 		return "reboots the bot";
 	}
 
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

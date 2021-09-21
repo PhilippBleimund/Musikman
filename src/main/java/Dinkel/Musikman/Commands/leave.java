@@ -60,5 +60,10 @@ public class leave implements Command{
 		return "leaves the current voice channel";
 	}
 
+	@Override
+	public String[] getArgs() {
+		return null;
+	}
+
 	
 }

@@ -51,4 +51,10 @@ public class catrandom implements Command{
 		return "a random cat image";
 	}
 
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -23,6 +23,17 @@ public class help implements Command {
 					messageAction.append("`!" + names[j] + "`");
 			}
 			
+			String[] commandArgs = commands.get(i).getArgs();
+			if(commandArgs != null) {
+				messageAction.append(" args: ");
+				for(int j=0;j<commandArgs.length;j++) {
+					if(j+1 != names.length)
+						messageAction.append("`[" + commandArgs[j] + "]`, ");
+					else
+						messageAction.append("`[" + commandArgs[j] + "]`");
+				}
+			}
+			
 			messageAction.append(" `[" + commands.get(i).getDescription() + "]`\n");
 		}
 		messageAction.queue();
@@ -36,6 +47,12 @@ public class help implements Command {
 	@Override
 	public String getDescription() {
 		return "fucking help";
+	}
+
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

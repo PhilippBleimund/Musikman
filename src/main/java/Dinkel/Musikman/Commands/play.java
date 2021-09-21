@@ -19,6 +19,7 @@ public class play implements Command{
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		TextChannel channel = eventMessage.getChannel();
 		
+
 		if(args.isEmpty()) {
 			channel.sendMessage("add arguments").queue();
 			return;
@@ -51,9 +52,23 @@ public class play implements Command{
 			link = "ytsearch:" + link;
 		}
 		
+		Strin
+		
 		PlayerManager.getInstance().loadAndPlay(channel, link);
 	}
 
+	public static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    } catch(NullPointerException e) {
+	        return false;
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}
+	
 	@Override
 	public String[] getNames() {
 		return new String[]{"play", "p"};
@@ -70,6 +85,11 @@ public class play implements Command{
 
 	@Override
 	public String getDescription() {
-		return "plays a song or playlist from the link or argument --> !play [arg]";
+		return "add the song to the queue";
+	}
+
+	@Override
+	public String[] getArgs() {
+		return new String[] {"URL", "smart search(title)", "position in queue"};
 	}
 }

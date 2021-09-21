@@ -10,11 +10,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class repeat implements Command{
+public class loop implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		TextChannel channel = eventMessage.getChannel();
+		if(args.size() <= 0) {
+			channel.sendMessage("add arg: `[track]`, `[queue]`, `[off]`").queue();
+			return;
+		}
+		
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
@@ -37,21 +42,34 @@ public class repeat implements Command{
 		}
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-		boolean newRepeating = !musicManager.scheduler.repeating;
-		
-		musicManager.scheduler.repeating = newRepeating;
-		
-		channel.sendMessageFormat("The player has been set to **%s**", newRepeating ? "repeating" : "not repeating").queue();
+
+		if(args.get(0).equals("queue")) {
+			musicManager.scheduler.loopQueue();
+			channel.sendMessage("the queue will be looping").queue();			
+		}else if(args.get(0).equalsIgnoreCase("track")) {
+			boolean newRepeating = !musicManager.scheduler.repeating;
+			musicManager.scheduler.repeating = newRepeating;
+			channel.sendMessageFormat("The player has been set to **%s**", newRepeating ? "repeating" : "not repeating").queue();
+		}else if(args.get(0).equalsIgnoreCase("off")) {
+			musicManager.scheduler.loopOffQueue();
+			musicManager.scheduler.repeating = false;
+			channel.sendMessage("All loops were disactivated").queue();
+		}
 	}
 
 	@Override
 	public String[] getNames() {
-		return new String[]{"reapeat"};
+		return new String[] {"loopqueue"};
 	}
 
 	@Override
 	public String getDescription() {
-		return "reapeates the current playing title";
+		return "loops the cuurent queue";
+	}
+
+	@Override
+	public String[] getArgs() {
+		return new String[] {"track", "queue", "off"};
 	}
 
 }

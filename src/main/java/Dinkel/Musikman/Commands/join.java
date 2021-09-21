@@ -49,4 +49,10 @@ public class join implements Command {
 		return "join the voice channel of the user";
 	}
 
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

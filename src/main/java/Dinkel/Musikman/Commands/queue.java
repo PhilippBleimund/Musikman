@@ -81,4 +81,9 @@ public class queue implements Command{
 		return "shows the queue";
 	}
 
+	@Override
+	public String[] getArgs() {
+		return new String[] {"all"};
+	}
+
 }

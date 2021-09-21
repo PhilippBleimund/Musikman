@@ -1,32 +1,27 @@
 package Dinkel.Musikman;
 
-import java.util.List;
-
 import javax.security.auth.login.LoginException;
 
 import Dinkel.Musikman.Commands.catrandom;
 import Dinkel.Musikman.Commands.help;
 import Dinkel.Musikman.Commands.join;
 import Dinkel.Musikman.Commands.leave;
+import Dinkel.Musikman.Commands.loop;
 import Dinkel.Musikman.Commands.nowPlaying;
 import Dinkel.Musikman.Commands.pause;
 import Dinkel.Musikman.Commands.play;
 import Dinkel.Musikman.Commands.queue;
-import Dinkel.Musikman.Commands.repeat;
 import Dinkel.Musikman.Commands.restart;
 import Dinkel.Musikman.Commands.rule34random;
+import Dinkel.Musikman.Commands.shuffle;
 import Dinkel.Musikman.Commands.skip;
 import Dinkel.Musikman.Commands.stop;
 import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.TicketManager;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class Musikman_Main {
 
@@ -51,12 +46,13 @@ public class Musikman_Main {
 		manager.addCommand(new skip());
 		manager.addCommand(new nowPlaying());
 		manager.addCommand(new queue());
-		manager.addCommand(new repeat());
 		manager.addCommand(new leave());
 		manager.addCommand(new pause());
 		manager.addCommand(new restart());
 		manager.addCommand(new rule34random());
 		manager.addCommand(new catrandom());
+		manager.addCommand(new loop());
+		manager.addCommand(new shuffle());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		try {

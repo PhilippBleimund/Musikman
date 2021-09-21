@@ -55,4 +55,10 @@ public class stop implements Command{
 		return "remove all tracks and clear current track";
 	}
 
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
