@@ -34,10 +34,8 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 	
 	public void shuffleQueue() {
-		List<AudioTrack> tracks = new ArrayList<AudioTrack>();
-		for(AudioTrack t : queue) {
-			tracks.add(t);
-		}
+		List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
+
 		Collections.shuffle(tracks);
 		queue.clear();
 		queue = new LinkedBlockingQueue<AudioTrack>(tracks);
@@ -54,6 +52,24 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void loopOffQueue() {
 		loopQueue = false;
 		loopingQueue = null;
+	}
+	
+	public void removeRange(int a, int b) {
+		List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
+		List<AudioTrack> removeTracks = new ArrayList<AudioTrack>();
+		for(int i=a-1;i<b;i++) {
+			removeTracks.add(tracks.get(i));
+		}
+		queue.removeAll(removeTracks);
+	}
+	
+	public void moveTrack(int a, int b) {
+		List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
+		AudioTrack track1 = tracks.get(a-1);
+		tracks.add(b-1, track1);
+		tracks.remove(track1);
+		queue.clear();
+		queue = new LinkedBlockingQueue<AudioTrack>(tracks);
 	}
 	
 	public void nextTrack() {

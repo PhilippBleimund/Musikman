@@ -61,4 +61,9 @@ public class stop implements Command{
 		return null;
 	}
 
+	@Override
+	public boolean showInHelp() {
+		return true;
+	}
+
 }

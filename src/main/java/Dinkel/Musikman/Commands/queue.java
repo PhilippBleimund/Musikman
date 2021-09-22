@@ -86,4 +86,9 @@ public class queue implements Command{
 		return new String[] {"all"};
 	}
 
+	@Override
+	public boolean showInHelp() {
+		return true;
+	}
+
 }

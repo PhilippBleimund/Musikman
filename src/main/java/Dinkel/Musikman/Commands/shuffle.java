@@ -56,4 +56,9 @@ public class shuffle implements Command{
 		return "shuffle the current queue";
 	}
 
+	@Override
+	public boolean showInHelp() {
+		return true;
+	}
+
 }

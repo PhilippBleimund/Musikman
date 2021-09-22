@@ -2,16 +2,18 @@ package Dinkel.Musikman;
 
 import javax.security.auth.login.LoginException;
 
+import Dinkel.Musikman.Commands.admin;
 import Dinkel.Musikman.Commands.catrandom;
 import Dinkel.Musikman.Commands.help;
 import Dinkel.Musikman.Commands.join;
 import Dinkel.Musikman.Commands.leave;
 import Dinkel.Musikman.Commands.loop;
+import Dinkel.Musikman.Commands.move;
 import Dinkel.Musikman.Commands.nowPlaying;
 import Dinkel.Musikman.Commands.pause;
 import Dinkel.Musikman.Commands.play;
 import Dinkel.Musikman.Commands.queue;
-import Dinkel.Musikman.Commands.restart;
+import Dinkel.Musikman.Commands.remove;
 import Dinkel.Musikman.Commands.rule34random;
 import Dinkel.Musikman.Commands.shuffle;
 import Dinkel.Musikman.Commands.skip;
@@ -31,11 +33,11 @@ public class Musikman_Main {
 	
 	public static void main(String[] args) throws LoginException {
 		// TODO Auto-generated method stub
-		new Musikman_Main(new String[] {"888441323785420844"});
+		new Musikman_Main(args);
 	}
 	
 	public Musikman_Main(String[] args) throws LoginException {
-		jda = JDABuilder.createDefault(Secret.Token).build();
+		jda = JDABuilder.createDefault(Information.Token).build();
 		jda.getPresence().setStatus(OnlineStatus.IDLE);
 		
 		CommandManager manager = CommandManager.getInstance();
@@ -48,11 +50,13 @@ public class Musikman_Main {
 		manager.addCommand(new queue());
 		manager.addCommand(new leave());
 		manager.addCommand(new pause());
-		manager.addCommand(new restart());
 		manager.addCommand(new rule34random());
 		manager.addCommand(new catrandom());
 		manager.addCommand(new loop());
 		manager.addCommand(new shuffle());
+		manager.addCommand(new admin());
+		manager.addCommand(new remove());
+		manager.addCommand(new move());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		try {

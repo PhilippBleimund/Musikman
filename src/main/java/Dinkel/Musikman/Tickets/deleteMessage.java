@@ -13,7 +13,7 @@ public class deleteMessage extends PollTicket{
 	 * @param messageIds
 	 */
 	public deleteMessage(long[] messageIds) {
-		this.messageId = messageId;
+		this.messageId = messageIds;
 	}
 	
 	@Override

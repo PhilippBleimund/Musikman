@@ -2,16 +2,19 @@ package Dinkel.Musikman.Commands;
 
 import java.util.List;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
+import Dinkel.Musikman.Lavaplayer.TrackScheduler;
 import Dinkel.Musikman.Manager.Command;
+import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.managers.AudioManager;
 
-public class leave implements Command{
+public class remove implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -38,31 +41,48 @@ public class leave implements Command{
 		}
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
+		TrackScheduler scheduler = musicManager.scheduler;
+		if(scheduler.queue.size() == 0) {
+			channel.sendMessage("queue is empty").queue();
+			return;
+		}
 		
-		musicManager.scheduler.repeating = false;
-		musicManager.scheduler.queue.clear();
-		musicManager.audioPlayer.stopTrack();
-		
-		AudioManager audioManager = eventMessage.getGuild().getAudioManager();
-		
-		audioManager.closeAudioConnection();
-		
-		channel.sendMessage("I have left the voice channel").queue();
+		if(args.size() == 1) {
+			String arg = args.get(0);
+			if(helper.isInteger(arg)) {
+				scheduler.removeRange(Integer.valueOf(arg), Integer.valueOf(arg));
+				channel.sendMessage("track at `" + arg + "` removed").queue();
+				return;
+			}else {
+				channel.sendMessage("`" + arg + "` is not a valid number(1, 2, 3,...)").queue();
+				return;
+			}
+		}
+		String arg1 = args.get(0);
+		String arg2 = args.get(1);
+		if(helper.isInteger(arg1) && helper.isInteger(arg2)) {
+			scheduler.moveTrack(Integer.valueOf(arg1), Integer.valueOf(arg2));
+			channel.sendMessage("removed tracks `" + arg1 + "-" + arg2 +"`").queue();
+			return;
+		}else {
+			channel.sendMessage("`" + arg1 + "` or `" + arg2 + "` is not a valid number(1, 2, 3,...)").queue();
+			return;
+		}
 	}
 
 	@Override
 	public String[] getNames() {
-		return new String[]{"leave", "l"};
-	}
-
-	@Override
-	public String getDescription() {
-		return "leaves the current voice channel";
+		return new String[] {"remove"};
 	}
 
 	@Override
 	public String[] getArgs() {
-		return null;
+		return new String[] {"queue id", "start end"};
+	}
+
+	@Override
+	public String getDescription() {
+		return "removes a track or a range";
 	}
 
 	@Override
@@ -70,5 +90,4 @@ public class leave implements Command{
 		return true;
 	}
 
-	
 }

@@ -6,22 +6,35 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Dinkel.Musikman.Information;
 import Dinkel.Musikman.Manager.Command;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class restart implements Command {
+public class admin implements Command {
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		long channelId = eventMessage.getChannel().getIdLong();
-		restartApplication(Long.toString(channelId));
+		long idLong = eventMessage.getAuthor().getIdLong();
+		for(int i=0;i<Information.admins.length;i++) {
+			if(idLong == Information.admins[i]) {
+				i = Integer.MAX_VALUE;
+				if (args.get(0).equalsIgnoreCase("restart")) {
+					long channelId = eventMessage.getChannel().getIdLong();
+					restartApplication(Long.toString(channelId));
+					return;
+				}else if(args.get(0).equalsIgnoreCase("shutdown")) {
+					System.exit(0);
+					return;
+				}
+			}
+		}
 	}
 
 	public void restartApplication(String arg) {
 		final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
 		File currentJar = null;
 		try {
-			currentJar = new File(restart.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+			currentJar = new File(admin.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,18 +63,22 @@ public class restart implements Command {
 
 	@Override
 	public String[] getNames() {
-		return new String[] { "restart" };
-	}
-
-	@Override
-	public String getDescription() {
-		return "reboots the bot";
+		return new String[] { "admin" };
 	}
 
 	@Override
 	public String[] getArgs() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { "shutdown", "restart" };
+	}
+
+	@Override
+	public String getDescription() {
+		return "special commands for the admin";
+	}
+
+	@Override
+	public boolean showInHelp() {
+		return true;
 	}
 
 }

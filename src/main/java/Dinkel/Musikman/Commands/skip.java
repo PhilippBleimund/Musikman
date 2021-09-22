@@ -49,6 +49,10 @@ public class skip implements Command{
 		}
 		
 		if(args.size() <= 0) {
+			if(musicManager.scheduler.queue.size() == 0) {
+				channel.sendMessage("queue is empty").queue();
+				return;
+			}
 			musicManager.scheduler.nextTrack();
 			channel.sendMessage("current track skipped").queue();			
 		}else {
@@ -74,12 +78,17 @@ public class skip implements Command{
 
 	@Override
 	public String getDescription() {
-		return "skips the cuurent track";
+		return "skips the cuurent track or to the position in the queue";
 	}
 
 	@Override
 	public String[] getArgs() {
-		return new String[] {"[queue id]"};
+		return new String[] {"queue id"};
+	}
+
+	@Override
+	public boolean showInHelp() {
+		return true;
 	}
 
 }

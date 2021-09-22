@@ -55,4 +55,9 @@ public class join implements Command {
 		return null;
 	}
 
+	@Override
+	public boolean showInHelp() {
+		return true;
+	}
+
 }
