@@ -5,9 +5,11 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import Dinkel.Musikman.Musikman_Main;
+import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.TicketManager;
+import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -48,39 +50,26 @@ public class play implements Command{
 		
 		String link = String.join(" ", args);
 		
-		if(!isURL(link)) {
+		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
+		
+		if(!helper.isURL(link)) {
 			link = "ytsearch:" + link;
 		}
 		
-		Strin
+		String arg1 = args.get(0);
+		if(helper.isInteger(arg1)) {
+			int number = Integer.parseInt(arg1);
+			musicManager.scheduler.directPlay(number);
+			channel.sendMessage("skiped to postion `" + number + "`").queue();
+			return;
+		}
 		
 		PlayerManager.getInstance().loadAndPlay(channel, link);
-	}
-
-	public static boolean isInteger(String s) {
-	    try { 
-	        Integer.parseInt(s); 
-	    } catch(NumberFormatException e) { 
-	        return false; 
-	    } catch(NullPointerException e) {
-	        return false;
-	    }
-	    // only got here if we didn't return false
-	    return true;
 	}
 	
 	@Override
 	public String[] getNames() {
 		return new String[]{"play", "p"};
-	}
-
-	private boolean isURL(String url) {
-		try {
-			new URI(url);
-			return true;
-		}catch(URISyntaxException e) {
-			return false;
-		}
 	}
 
 	@Override

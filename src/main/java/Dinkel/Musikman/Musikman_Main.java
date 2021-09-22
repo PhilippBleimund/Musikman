@@ -31,7 +31,7 @@ public class Musikman_Main {
 	
 	public static void main(String[] args) throws LoginException {
 		// TODO Auto-generated method stub
-		new Musikman_Main(new String[]{});
+		new Musikman_Main(new String[] {"888441323785420844"});
 	}
 	
 	public Musikman_Main(String[] args) throws LoginException {
@@ -63,7 +63,7 @@ public class Musikman_Main {
 		}
 		if(args.length != 0) {
 			TextChannel channel = jda.getTextChannelById(args[0]);
-			channel.sendMessage("im back on");
+			channel.sendMessage("im back on").queue();
 		}
 	}
 

@@ -13,4 +13,6 @@ public interface Command {
 	public abstract String[] getArgs();
 	
 	public abstract String getDescription();
+	
+	public abstract boolean showInHelp();
 }

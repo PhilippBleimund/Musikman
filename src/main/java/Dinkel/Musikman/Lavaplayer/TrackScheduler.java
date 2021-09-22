@@ -64,7 +64,13 @@ public class TrackScheduler extends AudioEventAdapter {
 		}else
 			this.player.startTrack(this.queue.poll(), false);
 	}
-	  
+	
+	public void directPlay(int position) {
+		AudioTrack[] tracks = new AudioTrack[queue.size()];
+		queue.toArray(tracks);
+		this.player.startTrack(tracks[position + 1].makeClone(), false);
+	}
+	
 	@Override
   	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if(endReason.mayStartNext) {
