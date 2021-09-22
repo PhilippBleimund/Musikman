@@ -1,5 +1,6 @@
 package Dinkel.Musikman.Commands;
 
+import java.awt.Color;
 import java.util.List;
 
 import Dinkel.Musikman.Manager.Command;
@@ -14,27 +15,29 @@ public class help implements Command {
 		MessageAction messageAction = eventMessage.getChannel().sendMessage("**help**\n");
 		List<Command> commands = CommandManager.getInstance().commands;
 		for(int i=0;i<commands.size();i++) {
-			messageAction.append("# ");
-			String[] names = commands.get(i).getNames();
-			for(int j=0;j<names.length;j++) {
-				if(j+1 != names.length)
-					messageAction.append("`!" + names[j] + "`, ");
-				else
-					messageAction.append("`!" + names[j] + "`");
-			}
-			
-			String[] commandArgs = commands.get(i).getArgs();
-			if(commandArgs != null) {
-				messageAction.append(" args: ");
-				for(int j=0;j<commandArgs.length;j++) {
+			Command command = commands.get(i);
+			if(command.showInHelp()) {
+				messageAction.append("# ");
+				String[] names = command.getNames();
+				for(int j=0;j<names.length;j++) {
 					if(j+1 != names.length)
-						messageAction.append("`[" + commandArgs[j] + "]`, ");
+						messageAction.append("`!" + names[j] + "`, ");
 					else
-						messageAction.append("`[" + commandArgs[j] + "]`");
+						messageAction.append("`!" + names[j] + "`");
 				}
+				
+				String[] commandArgs = command.getArgs();
+				if(commandArgs != null) {
+					messageAction.append(" args: ");
+					for(int j=0;j<commandArgs.length;j++) {
+						if(j+1 != commandArgs.length)
+							messageAction.append("`[" + commandArgs[j] + "]`, ");
+						else
+							messageAction.append("`[" + commandArgs[j] + "]`");
+					}
+				}
+				messageAction.append(" --> **`" + command.getDescription() + "`**\n");
 			}
-			
-			messageAction.append(" `[" + commands.get(i).getDescription() + "]`\n");
 		}
 		messageAction.queue();
 	}
@@ -53,6 +56,11 @@ public class help implements Command {
 	public String[] getArgs() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean showInHelp() {
+		return true;
 	}
 
 }

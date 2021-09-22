@@ -81,4 +81,9 @@ public class play implements Command{
 	public String[] getArgs() {
 		return new String[] {"URL", "smart search(title)", "position in queue"};
 	}
+
+	@Override
+	public boolean showInHelp() {
+		return true;
+	}
 }

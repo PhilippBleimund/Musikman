@@ -85,4 +85,9 @@ public class rule34random implements Command{
 		return null;
 	}
 
+	@Override
+	public boolean showInHelp() {
+		return true;
+	}
+
 }

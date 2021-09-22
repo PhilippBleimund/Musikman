@@ -59,7 +59,7 @@ public class loop implements Command{
 
 	@Override
 	public String[] getNames() {
-		return new String[] {"loopqueue"};
+		return new String[] {"loop"};
 	}
 
 	@Override
@@ -70,6 +70,11 @@ public class loop implements Command{
 	@Override
 	public String[] getArgs() {
 		return new String[] {"track", "queue", "off"};
+	}
+
+	@Override
+	public boolean showInHelp() {
+		return true;
 	}
 
 }

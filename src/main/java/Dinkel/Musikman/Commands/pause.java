@@ -65,4 +65,9 @@ public class pause implements Command{
 		return null;
 	}
 
+	@Override
+	public boolean showInHelp() {
+		return true;
+	}
+
 }
