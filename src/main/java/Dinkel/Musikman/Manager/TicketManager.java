@@ -23,7 +23,8 @@ public class TicketManager extends ListenerAdapter{
 	
 	public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent reactionEvent) {
 		System.out.println("reactionAdd");
-		for(PollTicket t : tickets) {
+		for(int i=0;i<tickets.size();i++) {
+			PollTicket t = tickets.get(i);
 			if(t.isRightTicket(reactionEvent)) {
 				t.TicketCode(reactionEvent);
 			}

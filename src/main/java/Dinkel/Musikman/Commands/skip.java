@@ -9,6 +9,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
+import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -56,6 +57,11 @@ public class skip implements Command{
 			musicManager.scheduler.nextTrack();
 			channel.sendMessage("current track skipped").queue();			
 		}else {
+			String arg0 = args.get(0);
+			if(!helper.isInteger(arg0)) {
+				channel.sendMessage("`" + arg0 + "` is not a valid number(1, 2, 3,...)").queue();
+				return;
+			}
 			int position = Integer.valueOf(args.get(0));
 			if(musicManager.scheduler.queue.size() > position || musicManager.scheduler.queue.size() <= 0) {
 				channel.sendMessage("track " + "#" + position + " is not on queue");

@@ -38,7 +38,7 @@ public class shuffle implements Command{
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
 		musicManager.scheduler.shuffleQueue();
-		channel.sendMessage("queue got shuffled");
+		channel.sendMessage("queue got shuffled").queue();
 	}
 
 	@Override

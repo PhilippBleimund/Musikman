@@ -33,6 +33,7 @@ public class Musikman_Main {
 	
 	public static void main(String[] args) throws LoginException {
 		// TODO Auto-generated method stub
+		Thread printingHook = new Thread(() -> System.out.println("In the middle of a shutdown"));
 		new Musikman_Main(args);
 	}
 	
