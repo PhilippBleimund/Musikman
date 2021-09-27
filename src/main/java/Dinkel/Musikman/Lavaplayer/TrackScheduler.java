@@ -66,7 +66,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void moveTrack(int a, int b) {
 		List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
 		AudioTrack track1 = tracks.get(a-1);
-		tracks.add(b-1, track1);
+		tracks.add(b, track1);
 		tracks.remove(track1);
 		queue.clear();
 		queue = new LinkedBlockingQueue<AudioTrack>(tracks);

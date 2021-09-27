@@ -52,8 +52,8 @@ public class move implements Command{
 		String arg1 = args.get(0);
 		String arg2 = args.get(1);
 		if(helper.isInteger(arg1) && helper.isInteger(arg2)) {
-			scheduler.removeRange(Integer.valueOf(arg1), Integer.valueOf(arg2));
-			channel.sendMessage("removed tracks `" + arg1 + "-" + arg2 +"`").queue();
+			scheduler.moveTrack(Integer.valueOf(arg1), Integer.valueOf(arg2));
+			channel.sendMessage("moved track `" + arg1 + " to " + arg2 +"`").queue();
 			return;
 		}else {
 			channel.sendMessage("`" + arg1 + "` or `" + arg2 + "` is not a valid number(1, 2, 3,...)").queue();

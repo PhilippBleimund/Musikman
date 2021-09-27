@@ -28,7 +28,7 @@ public class rule34random implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		eventMessage.getChannel().sendMessage("( ͡° ͜ʖ ͡°)").addFile(getRule34Image(), "rule34.jpg", AttachmentOption.SPOILER).queue(message -> {
+		eventMessage.getChannel().sendMessage("( ͡° ͜ʖ ͡°)").addFile(getRule34Image(), "cat.jpg", AttachmentOption.SPOILER).queue(message -> {
 			message.addReaction("❌").queue();
 			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));
 		});
