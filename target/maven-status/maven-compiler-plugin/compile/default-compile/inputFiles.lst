@@ -1,30 +1,30 @@
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\helper\helper.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\leave.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Manager\CommandManager.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Musikman_Main.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\stop.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\join.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\queue.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Tickets\deleteMessage.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Tickets\queueTXTTicket.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Manager\Command.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\admin.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Manager\PollTicket.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Tickets\playlistTicket.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Lavaplayer\AudioPlayerSendHandler.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Lavaplayer\GuildMusicManager.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Information.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\loop.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\play.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\catrandom.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\nowPlaying.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\help.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\rule34random.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\remove.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Lavaplayer\TrackScheduler.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Manager\TicketManager.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\move.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\pause.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\skip.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Commands\shuffle.java
-C:\Users\Philipp Bleimund\eclipse-workspace\newStart\Bot_Musikman\src\main\java\Dinkel\Musikman\Lavaplayer\PlayerManager.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/leave.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Lavaplayer/GuildMusicManager.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/help.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/join.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/helper/helper.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/remove.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Lavaplayer/TrackScheduler.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Tickets/queueTXTTicket.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/skip.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Musikman_Main.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/stop.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/play.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Manager/CommandManager.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/catrandom.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Lavaplayer/AudioPlayerSendHandler.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/nowPlaying.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/queue.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/admin.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Manager/PollTicket.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/move.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Lavaplayer/PlayerManager.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/loop.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Tickets/playlistTicket.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Manager/Command.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Manager/TicketManager.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Information.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/pause.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Tickets/deleteMessage.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/rule34random.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/shuffle.java
