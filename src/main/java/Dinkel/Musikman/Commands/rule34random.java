@@ -39,8 +39,8 @@ public class rule34random implements Command{
 			URLConnection con = new URL( "https://rule34.xxx/index.php?page=post&s=random" ).openConnection();
 			con.connect();
 			InputStream is = con.getInputStream();
+			Document doc = Jsoup.parse(is, null, con.getURL().toString());
 			is.close();
-			Document doc = Jsoup.connect(con.getURL().toString()).timeout(60000).maxBodySize(0).get();
 			Elements element = doc.getElementsByAttribute("content");
 			Element element2 = element.get(6);
 			String attr = element2.attr("content");

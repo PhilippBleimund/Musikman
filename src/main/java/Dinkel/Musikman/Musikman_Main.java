@@ -6,6 +6,7 @@ import Dinkel.Musikman.Commands.admin;
 import Dinkel.Musikman.Commands.catrandom;
 import Dinkel.Musikman.Commands.help;
 import Dinkel.Musikman.Commands.join;
+import Dinkel.Musikman.Commands.konachan;
 import Dinkel.Musikman.Commands.leave;
 import Dinkel.Musikman.Commands.loop;
 import Dinkel.Musikman.Commands.move;
@@ -58,6 +59,7 @@ public class Musikman_Main {
 		manager.addCommand(new admin());
 		manager.addCommand(new remove());
 		manager.addCommand(new move());
+		manager.addCommand(new konachan());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		try {
