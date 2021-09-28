@@ -1,16 +1,26 @@
 package Dinkel.Musikman.Lavaplayer;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
-import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame;
 
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 
 public class AudioPlayerSendHandler implements AudioSendHandler{
 
-	private final AudioPlayer audioPlayer;
+	public final AudioPlayer audioPlayer;
 	  private AudioFrame lastFrame;
 
 	  public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
