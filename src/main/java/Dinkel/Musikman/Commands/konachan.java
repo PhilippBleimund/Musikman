@@ -21,6 +21,7 @@ public class konachan implements Command{
 		getKonanImageURL();
 	}
 	
+	//TODO change to Sankaku Channel
 	public String getKonanImageURL() {
 		try {
 			Document doc = Jsoup.connect("https://konachan.com/post?tags=order%3Arandom").timeout(Integer.MAX_VALUE).get();
