@@ -16,6 +16,7 @@ import Dinkel.Musikman.Commands.play;
 import Dinkel.Musikman.Commands.queue;
 import Dinkel.Musikman.Commands.remove;
 import Dinkel.Musikman.Commands.rule34random;
+import Dinkel.Musikman.Commands.saveQueue;
 import Dinkel.Musikman.Commands.shuffle;
 import Dinkel.Musikman.Commands.skip;
 import Dinkel.Musikman.Commands.stop;
@@ -60,6 +61,7 @@ public class Musikman_Main {
 		manager.addCommand(new remove());
 		manager.addCommand(new move());
 		manager.addCommand(new konachan());
+		manager.addCommand(new saveQueue());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		try {
