@@ -21,6 +21,7 @@ import Dinkel.Musikman.Commands.shuffle;
 import Dinkel.Musikman.Commands.skip;
 import Dinkel.Musikman.Commands.stop;
 import Dinkel.Musikman.Manager.CommandManager;
+import Dinkel.Musikman.Manager.LogManager;
 import Dinkel.Musikman.Manager.TicketManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -64,6 +65,7 @@ public class Musikman_Main {
 		manager.addCommand(new saveQueue());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
+		jda.addEventListener(new LogManager());
 		try {
 			jda.awaitReady();
 		} catch (InterruptedException e) {
