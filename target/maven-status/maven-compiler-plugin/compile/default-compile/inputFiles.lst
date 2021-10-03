@@ -2,6 +2,7 @@
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Lavaplayer/GuildMusicManager.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/help.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/join.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/volume.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/helper/helper.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/remove.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Lavaplayer/TrackScheduler.java
@@ -13,11 +14,15 @@
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Manager/CommandManager.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/catrandom.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Lavaplayer/AudioPlayerSendHandler.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/konachan.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/nowPlaying.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/queue.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Manager/LogManager.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/admin.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/saveQueue.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Manager/PollTicket.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/move.java
+/home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/SaveData/saveManager.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Lavaplayer/PlayerManager.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Commands/loop.java
 /home/pi/Documents/Musikmann_Bot/Musikman/src/main/java/Dinkel/Musikman/Tickets/playlistTicket.java
