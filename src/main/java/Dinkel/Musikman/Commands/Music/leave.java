@@ -1,10 +1,6 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.Music;
 
 import java.util.List;
-
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
@@ -13,8 +9,9 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.managers.AudioManager;
 
-public class nowPlaying implements Command{
+public class leave implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -41,32 +38,30 @@ public class nowPlaying implements Command{
 		}
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-		AudioPlayer audioPlayer = musicManager.audioPlayer;
-		AudioTrack track = audioPlayer.getPlayingTrack();
 		
-		if(track == null) {
-			channel.sendMessage("there is no track playing").queue();
-			return;
-		}
+		musicManager.scheduler.repeating = false;
+		musicManager.scheduler.queue.clear();
+		musicManager.audioPlayer.stopTrack();
 		
-		AudioTrackInfo info = track.getInfo();
+		AudioManager audioManager = eventMessage.getGuild().getAudioManager();
 		
-		channel.sendMessageFormat("now playing `%s` by `%s` (Link: <%s>", info.title, info.author, info.uri).queue();
+		audioManager.closeAudioConnection();
+		
+		channel.sendMessage("I have left the voice channel").queue();
 	}
 
 	@Override
 	public String[] getNames() {
-		return new String[]{"nowPlaying", "np"};
+		return new String[]{"leave", "l"};
 	}
 
 	@Override
 	public String getDescription() {
-		return "sends the current playing song";
+		return "leaves the current voice channel";
 	}
 
 	@Override
 	public String[] getArgs() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -75,4 +70,5 @@ public class nowPlaying implements Command{
 		return true;
 	}
 
+	
 }

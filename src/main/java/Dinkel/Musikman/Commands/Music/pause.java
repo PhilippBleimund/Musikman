@@ -1,21 +1,16 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.Music;
 
 import java.util.List;
-
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
-import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class skip implements Command{
+public class pause implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -42,54 +37,32 @@ public class skip implements Command{
 		}
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-		AudioPlayer audioPlayer = musicManager.audioPlayer;
 		
-		if(audioPlayer.getPlayingTrack() == null) {
-			channel.sendMessage("there is no track playing").queue();
-			return;
-		}
+		boolean currState = musicManager.audioPlayer.isPaused();
 		
-		if(args.size() <= 0) {
-			if(musicManager.scheduler.queue.size() == 0) {
-				channel.sendMessage("queue is empty").queue();
-				return;
-			}
-			musicManager.scheduler.nextTrack();
-			channel.sendMessage("current track skipped").queue();			
+		musicManager.audioPlayer.setPaused(!currState);
+		
+		if(currState == false) {
+			channel.sendMessage("paused the track").queue();
 		}else {
-			String arg0 = args.get(0);
-			if(!helper.isInteger(arg0)) {
-				channel.sendMessage("`" + arg0 + "` is not a valid number(1, 2, 3,...)").queue();
-				return;
-			}
-			int position = Integer.valueOf(args.get(0));
-			if(musicManager.scheduler.queue.size() > position || musicManager.scheduler.queue.size() <= 0) {
-				channel.sendMessage("track " + "#" + position + " is not on queue");
-				return;
-			}else {
-				for(int i=0;i<position;i++) {
-					musicManager.scheduler.nextTrack();
-				}
-				AudioTrack track = audioPlayer.getPlayingTrack();
-				AudioTrackInfo info = track.getInfo();
-				channel.sendMessage("skiped to `" + info.title + "`");
-			}
+			channel.sendMessage("resumed the track").queue();
 		}
 	}
 
 	@Override
 	public String[] getNames() {
-		return new String[]{"skip", "s"};
+		return new String[]{"pause", "resume"};
 	}
 
 	@Override
 	public String getDescription() {
-		return "skips the cuurent track or to the position in the queue";
+		return "pauses or resumes the current playing song";
 	}
 
 	@Override
 	public String[] getArgs() {
-		return new String[] {"queue id"};
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

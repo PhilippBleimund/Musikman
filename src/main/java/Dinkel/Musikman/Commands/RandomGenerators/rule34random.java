@@ -1,4 +1,4 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.RandomGenerators;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;

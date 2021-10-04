@@ -1,4 +1,4 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.Music;
 
 import java.util.List;
 
@@ -9,9 +9,8 @@ import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.managers.AudioManager;
 
-public class leave implements Command{
+public class shuffle implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -38,26 +37,13 @@ public class leave implements Command{
 		}
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-		
-		musicManager.scheduler.repeating = false;
-		musicManager.scheduler.queue.clear();
-		musicManager.audioPlayer.stopTrack();
-		
-		AudioManager audioManager = eventMessage.getGuild().getAudioManager();
-		
-		audioManager.closeAudioConnection();
-		
-		channel.sendMessage("I have left the voice channel").queue();
+		musicManager.scheduler.shuffleQueue();
+		channel.sendMessage("queue got shuffled").queue();
 	}
 
 	@Override
 	public String[] getNames() {
-		return new String[]{"leave", "l"};
-	}
-
-	@Override
-	public String getDescription() {
-		return "leaves the current voice channel";
+		return new String[] {"shuffle"};
 	}
 
 	@Override
@@ -66,9 +52,13 @@ public class leave implements Command{
 	}
 
 	@Override
+	public String getDescription() {
+		return "shuffle the current queue";
+	}
+
+	@Override
 	public boolean showInHelp() {
 		return true;
 	}
 
-	
 }
