@@ -19,7 +19,6 @@ import Dinkel.Musikman.Commands.Music.skip;
 import Dinkel.Musikman.Commands.Music.stop;
 import Dinkel.Musikman.Commands.Music.volume;
 import Dinkel.Musikman.Commands.RandomGenerators.catrandom;
-import Dinkel.Musikman.Commands.RandomGenerators.hentaiImage;
 import Dinkel.Musikman.Commands.RandomGenerators.konachan;
 import Dinkel.Musikman.Commands.RandomGenerators.rule34random;
 import Dinkel.Musikman.Manager.CommandManager;
@@ -65,7 +64,6 @@ public class Musikman_Main {
 		manager.addCommand(new move());
 		manager.addCommand(new konachan());
 		manager.addCommand(new saveQueue());
-		manager.addCommand(new hentaiImage());
 		manager.addCommand(new volume());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());

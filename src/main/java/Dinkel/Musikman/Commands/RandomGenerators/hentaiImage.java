@@ -25,9 +25,18 @@ public class hentaiImage implements Command {
 
 	private ArrayList<File> images;
 
-	private File LOCATION = new File("C:\\Users\\Lars Bleimund\\Documents\\Philipp Bleimund\\Documents\\Helper\\BilderDatenbanken\\GoogleImages");
+	private File LOCATION;
 	
 	public hentaiImage() {
+		
+		String OS = System.getProperty("os.name");
+		System.out.println(OS);
+		if(OS.indexOf("Windows") >= 0) {
+			LOCATION = new File("C:\\Users\\Philipp Bleimund\\Desktop\\DiscordChatExporter\\Chats\\Doujin District\\🧻 Doujin District 🧻 - nsfw - 🔴-lewds [677341812381450266].json_Files");
+		}else if(OS.contains("Linux")) {
+			LOCATION = new File("/home/pi/Pictures/HentaiImages");
+		}
+		
 		try {
 			images = prepareArray(new File[] {LOCATION});
 		} catch (IOException | ParseException e) {
