@@ -8,6 +8,7 @@ import Dinkel.Musikman.Musikman_Main;
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
+import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.TicketManager;
 import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -31,7 +32,7 @@ public class play implements Command{
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
 		if(!selfVoiceState.inVoiceChannel()) {
-			channel.sendMessage("I need to be in a voice channel").queue();
+			CommandManager.getInstance().CommandRequest(eventMessage, "join");
 			return;
 		}
 		

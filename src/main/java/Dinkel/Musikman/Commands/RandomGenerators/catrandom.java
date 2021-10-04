@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -28,6 +29,9 @@ public class catrandom implements Command{
 	private final String CatJpg = "https://thecatapi.com/api/images/get?format=src&type=jpg";
 	private final String CatGif = "https://thecatapi.com/api/images/get?format=src&type=gif";
 	
+	private String[] faces = new String[] {"(✿◠‿◠)", "ʕ•́ᴥ•̀ʔっ♡", "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧", "(●´ω｀●)", "ʕ·ᴥ·ʔ",  "(°∀°)", "٩(̾●̮̮̃̾•̃̾)۶", "( °٢° )"};
+	private Random rnd = new Random();
+	
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		
@@ -45,7 +49,7 @@ public class catrandom implements Command{
 		}
 		
 		eventMessage.getChannel().sendTyping().queue();
-		eventMessage.getChannel().sendMessage("ʕ•́ᴥ•̀ʔっ♡").addFile(getRandomCat(URL, 0), "cat." + format).queue(message -> {
+		eventMessage.getChannel().sendMessage(faces[rnd.nextInt(faces.length)]).addFile(getRandomCat(URL, 0), "cat." + format).queue(message -> {
 			message.addReaction("❌").queue();
 			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));
 		});

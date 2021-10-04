@@ -36,6 +36,19 @@ public class CommandManager extends ListenerAdapter {
 		}
 	}
 	
+	public void CommandRequest(GuildMessageReceivedEvent eventMessage, String commandName) {
+		String[] args = eventMessage.getMessage().getContentRaw().split("\\s+");
+		
+		List<String> argsList = Arrays.asList(args).subList(1, args.length);
+		for(Command c : commands) {
+			for(int i=0;i<c.getNames().length;i++) {
+				if(commandName.equalsIgnoreCase(Musikman_Main.prefix + c.getNames()[i])) {
+					c.commandCode(eventMessage, argsList);
+				}
+			}
+		}
+	}
+	
 	public static CommandManager getInstance() {
 		if(INSTANCE == null) {
 			INSTANCE = new CommandManager();
