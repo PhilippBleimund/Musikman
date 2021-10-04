@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -26,9 +27,12 @@ import net.dv8tion.jda.api.utils.AttachmentOption;
 
 public class rule34random implements Command{
 
+	private String[] faces = new String[] {"( ͡° ͜ʖ ͡°)", "( ͡⚆ ͜ʖ ͡⚆ )", "( ͝° ͜ʖ͡°)", "/╲/( ͡☉ ͜ʖ ͡☉)/\\╱\\", "ಠ ﭛ ಠ"};
+	Random rnd = new Random();
+	
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		eventMessage.getChannel().sendMessage("( ͡° ͜ʖ ͡°)").addFile(getRule34Image(), "cat.jpg", AttachmentOption.SPOILER).queue(message -> {
+		eventMessage.getChannel().sendMessage(faces[rnd.nextInt(faces.length)]).addFile(getRule34Image(), "rule34.jpg", AttachmentOption.SPOILER).queue(message -> {
 			message.addReaction("❌").queue();
 			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));
 		});
