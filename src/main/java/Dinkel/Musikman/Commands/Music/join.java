@@ -1,26 +1,26 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.Music;
 
 import java.util.List;
 
-import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
-import Dinkel.Musikman.Lavaplayer.PlayerManager;
+import Dinkel.Musikman.Musikman_Main;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.TicketManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.managers.AudioManager;
 
-public class stop implements Command{
-
-	@Override
+public class join implements Command {
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		TextChannel channel = eventMessage.getChannel();
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
-		if(!selfVoiceState.inVoiceChannel()) {
-			channel.sendMessage("I need to be in a voice channel").queue();
+		if(selfVoiceState.inVoiceChannel()) {
+			channel.sendMessage("Im already in a voice channel").queue();
 			return;
 		}
 		
@@ -32,27 +32,21 @@ public class stop implements Command{
 			return;
 		}
 		
-		if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-			channel.sendMessage("we are not in the same voice channel").queue();
-			return;
-		}
+		AudioManager audioManager = eventMessage.getGuild().getAudioManager();
+		VoiceChannel memberChannel = memberVoiceState.getChannel();
 		
-		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-		
-		musicManager.scheduler.player.stopTrack();
-		musicManager.scheduler.queue.clear();
-		
-		channel.sendMessage("stoped the music and cleared the queue").queue();
+		audioManager.openAudioConnection(memberChannel);
+		channel.sendMessage("Connecting to \uD83D\uDD0A" + memberChannel.getName()).queue();
 	}
-	
+
 	@Override
 	public String[] getNames() {
-		return new String[]{"stop", "reset"};
+		return new String[]{"join", "j"};
 	}
 
 	@Override
 	public String getDescription() {
-		return "remove all tracks and clear current track";
+		return "join the voice channel of the user";
 	}
 
 	@Override

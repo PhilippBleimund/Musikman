@@ -1,4 +1,4 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.Music;
 
 import java.net.URI;
 import java.net.URISyntaxException;

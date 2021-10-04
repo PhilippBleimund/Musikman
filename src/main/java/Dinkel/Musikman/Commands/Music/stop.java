@@ -1,19 +1,17 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.Music;
 
 import java.util.List;
-
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
-import Dinkel.Musikman.helper.helper;
+import Dinkel.Musikman.Manager.TicketManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class volume implements Command{
+public class stop implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
@@ -40,35 +38,27 @@ public class volume implements Command{
 		}
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-		AudioPlayer audioPlayer = musicManager.audioPlayer;
 		
-		if(audioPlayer.getPlayingTrack() == null) {
-			channel.sendMessage("there is no track playing").queue();
-			return;
-		}
+		musicManager.scheduler.player.stopTrack();
+		musicManager.scheduler.queue.clear();
 		
-		String arg0 = args.get(0);
-		if(helper.isInteger(arg0)) {
-			int intArg = Integer.valueOf(arg0);
-			if(intArg >= 0 && intArg <= 100) {
-				audioPlayer.setVolume(intArg);
-			}
-		}
+		channel.sendMessage("stoped the music and cleared the queue").queue();
 	}
-
+	
 	@Override
 	public String[] getNames() {
-		return new String[] {"volume"};
-	}
-
-	@Override
-	public String[] getArgs() {
-		return new String[] {"0-100"};
+		return new String[]{"stop", "reset"};
 	}
 
 	@Override
 	public String getDescription() {
-		return "change the volume of the palyer";
+		return "remove all tracks and clear current track";
+	}
+
+	@Override
+	public String[] getArgs() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

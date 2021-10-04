@@ -1,4 +1,4 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.RandomGenerators;
 
 import java.io.IOException;
 import java.util.List;

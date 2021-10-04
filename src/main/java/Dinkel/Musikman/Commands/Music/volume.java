@@ -1,25 +1,23 @@
-package Dinkel.Musikman.Commands;
+package Dinkel.Musikman.Commands.Music;
 
 import java.util.List;
+
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
+import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-public class loop implements Command{
+public class volume implements Command{
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		TextChannel channel = eventMessage.getChannel();
-		if(args.size() <= 0) {
-			channel.sendMessage("add arg: `[track]`, `[queue]`, `[off]`").queue();
-			return;
-		}
-		
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
@@ -42,34 +40,36 @@ public class loop implements Command{
 		}
 		
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-
-		if(args.get(0).equals("queue")) {
-			musicManager.scheduler.loopQueue();
-			channel.sendMessage("the queue will be looping").queue();			
-		}else if(args.get(0).equalsIgnoreCase("track")) {
-			boolean newRepeating = !musicManager.scheduler.repeating;
-			musicManager.scheduler.repeating = newRepeating;
-			channel.sendMessageFormat("The player has been set to **%s**", newRepeating ? "repeating" : "not repeating").queue();
-		}else if(args.get(0).equalsIgnoreCase("off")) {
-			musicManager.scheduler.loopOffQueue();
-			musicManager.scheduler.repeating = false;
-			channel.sendMessage("All loops were disactivated").queue();
+		AudioPlayer audioPlayer = musicManager.audioPlayer;
+		
+		if(audioPlayer.getPlayingTrack() == null) {
+			channel.sendMessage("there is no track playing").queue();
+			return;
+		}
+		
+		String arg0 = args.get(0);
+		if(helper.isInteger(arg0)) {
+			int intArg = Integer.valueOf(arg0);
+			if(intArg >= 0 && intArg <= 300) {
+				channel.sendMessage("set audio player volume to `" + intArg + "`").queue();
+				audioPlayer.setVolume(intArg);
+			}
 		}
 	}
 
 	@Override
 	public String[] getNames() {
-		return new String[] {"loop"};
-	}
-
-	@Override
-	public String getDescription() {
-		return "loops the cuurent queue";
+		return new String[] {"volume"};
 	}
 
 	@Override
 	public String[] getArgs() {
-		return new String[] {"track", "queue", "off"};
+		return new String[] {"0-300"};
+	}
+
+	@Override
+	public String getDescription() {
+		return "change the volume of the palyer";
 	}
 
 	@Override
