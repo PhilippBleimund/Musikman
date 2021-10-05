@@ -24,6 +24,7 @@ import Dinkel.Musikman.Commands.RandomGenerators.rule34random;
 import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.LogManager;
 import Dinkel.Musikman.Manager.TicketManager;
+import Dinkel.Musikman.Manager.customJoinSounds;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -68,6 +69,7 @@ public class Musikman_Main {
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		jda.addEventListener(new LogManager());
+		jda.addEventListener(new customJoinSounds());
 		try {
 			jda.awaitReady();
 		} catch (InterruptedException e) {
