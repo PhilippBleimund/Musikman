@@ -2,6 +2,7 @@ package Dinkel.Musikman;
 
 import javax.security.auth.login.LoginException;
 
+import Dinkel.Musikman.Commands.addCustomSound;
 import Dinkel.Musikman.Commands.admin;
 import Dinkel.Musikman.Commands.help;
 import Dinkel.Musikman.Commands.Music.join;
@@ -66,10 +67,11 @@ public class Musikman_Main {
 		manager.addCommand(new konachan());
 		manager.addCommand(new saveQueue());
 		manager.addCommand(new volume());
+		manager.addCommand(new addCustomSound());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		jda.addEventListener(new LogManager());
-		jda.addEventListener(new customJoinSounds());
+		jda.addEventListener(customJoinSounds.getInstance());
 		try {
 			jda.awaitReady();
 		} catch (InterruptedException e) {

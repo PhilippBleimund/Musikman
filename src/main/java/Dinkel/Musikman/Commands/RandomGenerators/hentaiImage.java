@@ -16,6 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import Dinkel.Musikman.Information;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.TicketManager;
 import Dinkel.Musikman.Tickets.deleteMessage;
@@ -32,9 +33,9 @@ public class hentaiImage implements Command {
 		String OS = System.getProperty("os.name");
 		System.out.println(OS);
 		if(OS.indexOf("Windows") >= 0) {
-			LOCATION = new File("C:\\Users\\Philipp Bleimund\\Desktop\\DiscordChatExporter\\Chats\\Doujin District\\🧻 Doujin District 🧻 - nsfw - 🔴-lewds [677341812381450266].json_Files");
+			LOCATION = Information.windowsHentaiImages;
 		}else if(OS.contains("Linux")) {
-			LOCATION = new File("/home/pi/Pictures/HentaiImages");
+			LOCATION = Information.linuxHentaiImages;
 		}
 		
 		try {
