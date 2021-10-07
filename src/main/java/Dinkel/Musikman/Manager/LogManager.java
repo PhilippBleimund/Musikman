@@ -1,5 +1,6 @@
 package Dinkel.Musikman.Manager;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,6 +18,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import Dinkel.Musikman.SaveData.saveManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Message.Attachment;
@@ -42,17 +44,13 @@ public class LogManager extends ListenerAdapter{
 	JSONObject File = getWorkingIndex();
 	
 	public JSONObject getWorkingIndex() {
-		JSONObject parse = null;
-		try {
-			JSONParser parser = new JSONParser();
-			parse = (JSONObject) parser.parse(new FileReader(locationLogIndex));
-		} catch (IOException | ParseException e) {
+		JSONObject parse = saveManager.loadJSON(new File(locationLogIndex));
+		if(parse == null) {
 			JSONObject object = new JSONObject();
 			JSONArray array = new JSONArray();
 			object.put("Messages", array);
 			File = object;
-			saveFile();
-			e.printStackTrace();
+			saveManager.saveJSON(parse, new File(locationLogIndex));
 		}
 		return parse;
 	}
@@ -87,29 +85,6 @@ public class LogManager extends ListenerAdapter{
 		
 		JSONArray messages = (JSONArray) File.get("Messages");
 		messages.add(MessageObject);
-		saveFile();
-	}
-	
-	public void saveFile() {
-		FileWriter file = null;
-		
-		try {
-            // Constructs a FileWriter given a file name, using the platform's default charset
-            file = new FileWriter(locationLogIndex);
-            file.write(File.toJSONString());
- 
-        } catch (IOException e) {
-            e.printStackTrace();
- 
-        } finally {
- 
-            try {
-                file.flush();
-                file.close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+		saveManager.saveJSON(File, new File(locationLogIndex));
 	}
 }

@@ -1,8 +1,10 @@
 package Dinkel.Musikman.SaveData;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,6 +14,8 @@ import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -36,6 +40,34 @@ public class saveManager {
 		ObjectOutputStream output = new ObjectOutputStream(fos);
 		output.writeObject(tracks);
 		output.close();
+	}
+	
+	public static void saveJSON(JSONObject obj, File location) {
+		FileWriter file = null;
+		
+		try {
+            file = new FileWriter(location);
+            file.write(obj.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                file.flush();
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+	}
+	
+	public static JSONObject loadJSON(File location) {
+		JSONParser parser = new JSONParser();
+		try {
+			return (JSONObject) parser.parse(new FileReader(location));
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void test2() throws IOException, ClassNotFoundException {
