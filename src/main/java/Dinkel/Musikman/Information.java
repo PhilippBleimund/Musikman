@@ -45,10 +45,10 @@ public class Information {
 	public static File windowsLogFile = new File("C:\\Users\\Philipp Bleimund\\eclipse-workspace\\newStart\\Bot_Musikman\\LogIndex.json");
 	public static File getLogFile() {
 		if(OS.indexOf("Windows") >= 0) {
-			String formated = linuxLogFile.getAbsolutePath().replace('\\', '/');
+			String formated = windowsLogFile.getAbsolutePath().replace('\\', '/');
 			return new File(formated);
 		}else if(OS.contains("Linux")) {
-			return windowsLogFile;
+			return linuxLogFile;
 		}
 		return null;
 	}
