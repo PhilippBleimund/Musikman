@@ -18,6 +18,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import Dinkel.Musikman.Information;
 import Dinkel.Musikman.SaveData.saveManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -39,18 +40,18 @@ public class LogManager extends ListenerAdapter{
 	 * 		]
 	 * ]
 	 */
-	String locationLogIndex = System.getProperty("user.dir") + System.getProperty("file.separator") + "LogIndex.json";
+	File locationLogIndex = Information.getLogFile();
 	
 	JSONObject File = getWorkingIndex();
 	
 	public JSONObject getWorkingIndex() {
-		JSONObject parse = saveManager.loadJSON(new File(locationLogIndex));
+		JSONObject parse = saveManager.loadJSON(locationLogIndex);
 		if(parse == null) {
 			JSONObject object = new JSONObject();
 			JSONArray array = new JSONArray();
 			object.put("Messages", array);
 			File = object;
-			saveManager.saveJSON(parse, new File(locationLogIndex));
+			saveManager.saveJSON(parse, locationLogIndex);
 		}
 		return parse;
 	}
@@ -85,6 +86,6 @@ public class LogManager extends ListenerAdapter{
 		
 		JSONArray messages = (JSONArray) File.get("Messages");
 		messages.add(MessageObject);
-		saveManager.saveJSON(File, new File(locationLogIndex));
+		saveManager.saveJSON(File, locationLogIndex);
 	}
 }

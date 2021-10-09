@@ -40,4 +40,16 @@ public class Information {
 		}
 		return null;
 	}
+	
+	public static File linuxLogFile = new File("/home/pi/Documents/Musikmann_Bot/Musikman/LogIndex.json");
+	public static File windowsLogFile = new File("C:\\Users\\Philipp Bleimund\\eclipse-workspace\\newStart\\Bot_Musikman\\LogIndex.json");
+	public static File getLogFile() {
+		if(OS.indexOf("Windows") >= 0) {
+			String formated = linuxLogFile.getAbsolutePath().replace('\\', '/');
+			return new File(formated);
+		}else if(OS.contains("Linux")) {
+			return windowsLogFile;
+		}
+		return null;
+	}
 }
