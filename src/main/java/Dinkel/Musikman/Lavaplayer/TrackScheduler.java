@@ -33,6 +33,17 @@ public class TrackScheduler extends AudioEventAdapter {
 		}
 	}
 	
+	public void directPlay(AudioTrack track) {
+		AudioTrack playingTrack = this.player.getPlayingTrack();
+		List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
+		long position = playingTrack.getPosition();
+		AudioTrack clone = playingTrack.makeClone();
+		clone.setPosition(position);
+		tracks.add(0, clone);
+		queue = new LinkedBlockingQueue<AudioTrack>(tracks);
+		this.player.playTrack(track);
+	}
+	
 	public void shuffleQueue() {
 		List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
 
@@ -82,9 +93,8 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 	
 	public void directPlay(int position) {
-		AudioTrack[] tracks = new AudioTrack[queue.size()];
-		queue.toArray(tracks);
-		this.player.startTrack(tracks[position + 1].makeClone(), false);
+		List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
+		this.player.startTrack(tracks.get(position - 1), false);
 	}
 	
 	@Override

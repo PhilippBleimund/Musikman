@@ -51,7 +51,7 @@ public class LogManager extends ListenerAdapter{
 			JSONArray array = new JSONArray();
 			object.put("Messages", array);
 			File = object;
-			saveManager.saveJSON(parse, locationLogIndex);
+			saveManager.saveJSON(object, locationLogIndex);
 		}
 		return parse;
 	}
