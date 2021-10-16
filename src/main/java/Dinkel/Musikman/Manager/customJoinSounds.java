@@ -42,7 +42,8 @@ public class customJoinSounds extends ListenerAdapter{
 	public void saveSoundEffects() {
 		JSONObject obj = new JSONObject();
 		JSONArray soundArray = new JSONArray();
-		for(soundEffect s : sounds) {
+		for(int i=0;i<sounds.size();i++) {
+			soundEffect s = sounds.get(i);
 			JSONObject effect = new JSONObject();
 			effect.put("location", s.location.toString());
 			effect.put("userId", s.userId);
@@ -53,18 +54,18 @@ public class customJoinSounds extends ListenerAdapter{
 	}
 	
 	public List<soundEffect> readSoundEffects(){
-		List<soundEffect> sounds = new ArrayList<soundEffect>();
+		List<soundEffect> soundsRead = new ArrayList<soundEffect>();
 		JSONObject obj = saveManager.loadJSON(new File(Information.getCustomSounds() + "/joinSoundsIndex.json"));
 		if(obj != null) {
 			JSONArray soundArray = (JSONArray) obj.get("soundEffects");
 			for(Object o : soundArray) {
 				JSONObject JO = (JSONObject) o;
-				sounds.add(new soundEffect(
+				soundsRead.add(new soundEffect(
 						new File((String) JO.get("location")),
 						(long) JO.get("userId")));
 			}
 		}
-		return sounds;
+		return soundsRead;
 	}
 	
 	@Override

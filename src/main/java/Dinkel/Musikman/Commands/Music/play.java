@@ -60,6 +60,11 @@ public class play implements Command{
 		String arg1 = args.get(0);
 		if(helper.isInteger(arg1)) {
 			int number = Integer.parseInt(arg1);
+			int size = musicManager.scheduler.queue.size();
+			if(number > size) {
+				channel.sendMessage("track number is too big").queue();
+				return;
+			}
 			musicManager.scheduler.directPlay(number);
 			channel.sendMessage("skiped to postion `" + number + "`").queue();
 			return;

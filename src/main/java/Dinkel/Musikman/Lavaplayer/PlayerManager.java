@@ -76,7 +76,7 @@ public class PlayerManager {
 
 			@Override
 			public void trackLoaded(AudioTrack track) {
-				musicManager.scheduler.queue(track);
+				musicManager.scheduler.directPlay(track);
 				System.out.println("join Sound played");
 			}
 

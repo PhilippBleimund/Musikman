@@ -50,7 +50,7 @@ public class volume implements Command{
 		String arg0 = args.get(0);
 		if(helper.isInteger(arg0)) {
 			int intArg = Integer.valueOf(arg0);
-			if(intArg >= 0 && intArg <= 300) {
+			if(intArg >= 0 && intArg <= 100) {
 				channel.sendMessage("set audio player volume to `" + intArg + "`").queue();
 				audioPlayer.setVolume(intArg);
 			}
