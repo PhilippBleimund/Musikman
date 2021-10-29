@@ -21,6 +21,8 @@ public class TrackScheduler extends AudioEventAdapter {
 	public boolean repeating = false;
 	private boolean loopQueue = false;
 
+	private String customSoundIdentifier;
+	
 	public TrackScheduler(AudioPlayer player) {
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<AudioTrack>();
@@ -34,13 +36,16 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 	
 	public void directPlay(AudioTrack track) {
-		AudioTrack playingTrack = this.player.getPlayingTrack();
-		List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
-		long position = playingTrack.getPosition();
-		AudioTrack clone = playingTrack.makeClone();
-		clone.setPosition(position);
-		tracks.add(0, clone);
-		queue = new LinkedBlockingQueue<AudioTrack>(tracks);
+		if(customSoundIdentifier != null) {
+			AudioTrack playingTrack = this.player.getPlayingTrack();
+			List<AudioTrack> tracks = new ArrayList<AudioTrack>(queue);
+			long position = playingTrack.getPosition();
+			AudioTrack clone = playingTrack.makeClone();
+			clone.setPosition(position);
+			tracks.add(0, clone);
+			queue = new LinkedBlockingQueue<AudioTrack>(tracks);			
+		}
+		customSoundIdentifier = track.getIdentifier();
 		this.player.playTrack(track);
 	}
 	

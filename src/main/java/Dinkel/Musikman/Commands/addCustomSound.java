@@ -1,7 +1,13 @@
 package Dinkel.Musikman.Commands;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Dinkel.Musikman.Information;
 import Dinkel.Musikman.Manager.Command;
@@ -38,6 +44,45 @@ public class addCustomSound implements Command{
 		instance.saveSoundEffects();
 		
 		channel.sendMessage("added your personal Sound").queue();
+	}
+	
+	private boolean validateFile(Attachment attachment, User author, TextChannel channel) {
+		String fileExtension = attachment.getFileExtension();
+		if(!attachment.getFileExtension().equalsIgnoreCase("mp3")) {
+			channel.sendMessage("your attached file isnt mp3").queue();
+			return false;
+		}
+
+		long maxduration = 5000;
+		if(Information.isAdmin(author.getIdLong())) {
+			maxduration = 60000;
+		}
+		long duration = mp3duration(attachment);
+		if(duration > maxduration) {
+			return false;
+		}
+		return true;
+	}
+	
+	private long mp3duration(Attachment attachment) {
+		File tmp = null;
+		try {
+			tmp = File.createTempFile("customSound", "", soundLocation);
+			attachment.downloadToFile(tmp);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		AudioFileFormat baseFileFormat = null;
+		try {
+			baseFileFormat = AudioSystem.getAudioFileFormat(tmp);
+		} catch (UnsupportedAudioFileException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Map properties = baseFileFormat.properties();
+		return (long) properties.get("duration");
 	}
 
 	@Override

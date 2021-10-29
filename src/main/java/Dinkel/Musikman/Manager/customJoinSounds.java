@@ -15,6 +15,7 @@ import Dinkel.Musikman.SaveData.saveManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.events.guild.voice.GenericGuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -36,7 +37,13 @@ public class customJoinSounds extends ListenerAdapter{
 	private List<soundEffect> sounds = readSoundEffects();
 		
 	public void addSoundEffect(File location, long userId) {
-		this.sounds.add(new soundEffect(location, userId));
+		for(int i=0;i<sounds.size();i++) {
+			if(sounds.get(i).userId == userId) {
+				sounds.get(i).location = location;
+			}else {
+				this.sounds.add(new soundEffect(location, userId));				
+			}
+		}
 	}
 	
 	public void saveSoundEffects() {
@@ -70,18 +77,15 @@ public class customJoinSounds extends ListenerAdapter{
 	
 	@Override
 	public void onGuildVoiceJoin(@Nonnull GuildVoiceJoinEvent event) {
-		Member self = event.getGuild().getSelfMember();
-		GuildVoiceState voiceState = self.getVoiceState();
-		VoiceChannel channel = voiceState.getChannel();
-		for(soundEffect s : sounds) {
-			if(s.userId == event.getMember().getIdLong() && channel == event.getChannelJoined()) {
-				PlayerManager.getInstance().loadLocalFileSilent(event.getChannelJoined(), s.location);
-			}
-		}
+		this.handleCommand(event);
 	}
 	
 	@Override
 	public void onGuildVoiceMove(@Nonnull GuildVoiceMoveEvent event) {
+		this.handleCommand(event);
+	}
+	
+	private void handleCommand(@Nonnull GenericGuildVoiceUpdateEvent event) {
 		Member self = event.getGuild().getSelfMember();
 		GuildVoiceState voiceState = self.getVoiceState();
 		VoiceChannel channel = voiceState.getChannel();
