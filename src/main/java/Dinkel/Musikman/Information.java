@@ -17,6 +17,15 @@ public class Information {
 		395012173702758411l		//Simon Krampe
 	};
 	
+	public static boolean isAdmin(long UserId) {
+		for(int i=0;i<admins.length;i++) {
+			if(UserId == admins[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static File linuxCustomSounds = new File("/home/pi/Music/customSounds");
 	public static File windowsCustomSounds = new File("C:\\Users\\Philipp Bleimund\\Music\\Musikman");
 	public static File getCustomSounds() {

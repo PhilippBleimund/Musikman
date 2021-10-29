@@ -69,9 +69,6 @@ public class PlayerManager {
 	public void loadLocalFileSilent(VoiceChannel voice, File location) {
 		GuildMusicManager musicManager = this.getMusikManager(voice.getGuild());
 		
-		//LocalAudioSourceManager source = this.audioPlayerManager.source(LocalAudioSourceManager.class);
-		//source.loadItem(audioPlayerManager, new AudioReference(location.getAbsolutePath(), "local"));
-		
 		this.audioPlayerManager.loadItem(new AudioReference(location.getAbsolutePath(), "local"), new AudioLoadResultHandler() {
 
 			@Override
