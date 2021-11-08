@@ -38,8 +38,8 @@ public class Information {
 		return null;
 	}
 	
-	public static File linuxHentaiImages = new File("/home/pi/Pictures/HentaiImages");
-	public static File windowsHentaiImages = new File("C:\\Users\\Philipp Bleimund\\Desktop\\DiscordChatExporter\\Chats\\Doujin District\\hentaiImages");
+	public static File linuxHentaiImages = new File("/home/pi/Pictures/HentaiImages/links.json");
+	public static File windowsHentaiImages = new File("C:\\Users\\Philipp Bleimund\\Desktop\\DiscordChatExporter\\Chats\\hanime.tv\\links.json");
 	public static File getHentaiImages() {
 		if(OS.indexOf("Windows") >= 0) {
 			String formated = windowsHentaiImages.getAbsolutePath().replace('\\', '/');

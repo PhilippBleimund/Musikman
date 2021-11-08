@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -24,8 +25,8 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class hentaiImage implements Command {
 
-	private ArrayList<File> images;
-
+	private String[] links;
+	
 	private File LOCATION;
 	
 	public hentaiImage() {
@@ -39,7 +40,7 @@ public class hentaiImage implements Command {
 		}
 		
 		try {
-			images = prepareArray(new File[] {LOCATION});
+			links = prepareArray(LOCATION);
 		} catch (IOException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,45 +49,29 @@ public class hentaiImage implements Command {
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		File file = getRandomImage();
-		eventMessage.getChannel().sendMessage("ʕ•́ᴥ•̀ʔっ♡").addFile(file, file.getName()).queue(message -> {
+		String file = getRandomImage();
+		eventMessage.getChannel().sendMessage(file).queue(message -> {
 			message.addReaction("❌").queue();
 			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));
 		});
 	}
 
-	private ArrayList<File> prepareArray(File[] locations) throws FileNotFoundException, IOException, ParseException {
-		File[][] allFiles = new File[locations.length][0];
-		for(int i=0;i<locations.length;i++) {
-			allFiles[i] = locations[i].listFiles(new FilenameFilter() {
-			    @Override
-			    public boolean accept(File dir, String name) {
-			    	boolean accept = false;
-			    	if(name.toLowerCase().endsWith(".png"))
-			    		accept = true;
-			    	if(name.toLowerCase().endsWith(".jpg"))
-			    		accept = true;
-			    	if(name.toLowerCase().endsWith(".gif"))
-			    		accept = true;
-			    	if(name.toLowerCase().endsWith(".jpeg"))
-			    		accept = true;
-			        return accept;
-			    }
-			});
+	private String[] prepareArray(File location) throws FileNotFoundException, IOException, ParseException {
+		String[] images;
+		JSONParser json = new JSONParser();
+		JSONObject parse = (JSONObject) json.parse(location.getAbsolutePath());
+		JSONArray jsonImages = (JSONArray) parse.get("images");
+		images = new String[jsonImages.size()];
+		for(int i=0;i<jsonImages.size();i++) {
+			images[i] = (String) jsonImages.get(i);
 		}
-		ArrayList<File> files = new ArrayList<File>();
-		for(int i=0;i<allFiles.length;i++) {
-			for(int j=0;j<allFiles[0].length;j++) {
-				files.add(allFiles[i][j]);
-			}
-		}
-		return files;
+		return images;
 	}
 	
-	private File getRandomImage() {
+	private String getRandomImage() {
 		Random rnd = new Random();
-		int random = rnd.nextInt(images.size());
-		return images.get(random);
+		int random = rnd.nextInt(links.length);
+		return links[random];
 	}
 
 	@Override
