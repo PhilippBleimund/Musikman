@@ -3,6 +3,7 @@ package Dinkel.Musikman.Commands.RandomGenerators;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class hentaiImage implements Command {
 	private String[] prepareArray(File location) throws FileNotFoundException, IOException, ParseException {
 		String[] images;
 		JSONParser json = new JSONParser();
-		JSONObject parse = (JSONObject) json.parse(location.getAbsolutePath());
+		JSONObject parse = (JSONObject) json.parse(new FileReader(location));
 		JSONArray jsonImages = (JSONArray) parse.get("images");
 		images = new String[jsonImages.size()];
 		for(int i=0;i<jsonImages.size();i++) {
