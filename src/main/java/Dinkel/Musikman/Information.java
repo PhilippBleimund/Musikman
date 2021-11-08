@@ -38,7 +38,7 @@ public class Information {
 		return null;
 	}
 	
-	public static File linuxHentaiImages = new File("/home/pi/Pictures/HentaiImages/links.json");
+	public static File linuxHentaiImages = new File("/home/pi/Pictures/hentaiImages/links.json");
 	public static File windowsHentaiImages = new File("C:\\Users\\Philipp Bleimund\\Desktop\\DiscordChatExporter\\Chats\\hanime.tv\\links.json");
 	public static File getHentaiImages() {
 		if(OS.indexOf("Windows") >= 0) {
