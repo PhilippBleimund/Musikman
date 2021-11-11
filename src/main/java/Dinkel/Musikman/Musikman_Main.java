@@ -1,5 +1,7 @@
 package Dinkel.Musikman;
 
+import java.io.IOException;
+
 import javax.security.auth.login.LoginException;
 
 import Dinkel.Musikman.Commands.addCustomSound;
@@ -31,6 +33,17 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.TextChannel;
+
+import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import org.apache.hc.core5.http.ParseException;
+
+import java.io.IOException;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 public class Musikman_Main {
 
@@ -85,6 +98,27 @@ public class Musikman_Main {
 			TextChannel channel = jda.getTextChannelById(args[0]);
 			channel.sendMessage("im back on").queue();
 		}
+		
+		//testSpotify();
+	}
+	
+	public void testSpotify() {
+		 SpotifyApi spotifyApi = new SpotifyApi.Builder()
+				    .setClientId(Information.spotify_clientId)
+				    .setClientSecret(Information.spotify_clientSecret)
+				    .build();
+		 ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
+				    .build();
+		 try {
+		      final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
+
+		      // Set access token for further "spotifyApi" object usage
+		      spotifyApi.setAccessToken(clientCredentials.getAccessToken());
+
+		      System.out.println("Expires in: " + clientCredentials.getExpiresIn());
+		    } catch (IOException | SpotifyWebApiException | ParseException e) {
+		      System.out.println("Error: " + e.getMessage());
+		    }
 	}
 
 }

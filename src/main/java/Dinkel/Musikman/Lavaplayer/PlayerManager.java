@@ -122,18 +122,9 @@ public class PlayerManager {
 				List<AudioTrack> tracks = playlist.getTracks();
 				
 				if(trackURL.startsWith("ytsearch:")) {
-					channel.sendMessage("`Warning` search is playlist with `")
-						.append(String.valueOf(tracks.size()))
-						.append("` Titles. do you want to add?")
-						.queue(message -> {
-							message.addReaction("👍").queue();
-							message.addReaction("👎").queue();
-							long messageId = message.getIdLong();
-							TicketManager.getInstance().addTicket(new playlistTicket(playlist, messageId, musicManager));
-						});
+					musicManager.scheduler.queue(tracks.get(0));
 					return;
 				}
-				
 				
 				channel.sendMessage("Adding to queue: `")
 				.append(String.valueOf(tracks.size()))
