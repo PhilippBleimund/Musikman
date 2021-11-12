@@ -1,67 +1,91 @@
 package Dinkel.Musikman.Commands.Music;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.IOException;
 import java.util.List;
+
+import org.apache.hc.core5.http.ParseException;
 
 import Dinkel.Musikman.Musikman_Main;
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.CommandManager;
-import Dinkel.Musikman.Manager.TicketManager;
 import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.IPlaylistItem;
+import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
+import se.michaelthelin.spotify.model_objects.specification.Track;
+import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
+import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 
-public class play implements Command{
+public class play implements Command {
 
 	@Override
 	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
 		TextChannel channel = eventMessage.getChannel();
-		
 
-		if(args.isEmpty()) {
+		if (args.isEmpty()) {
 			channel.sendMessage("add arguments").queue();
 			return;
 		}
-		
+
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
-		
-		if(!selfVoiceState.inVoiceChannel()) {
+
+		if (!selfVoiceState.inVoiceChannel()) {
 			CommandManager.getInstance().CommandRequest(eventMessage, "join");
 			return;
 		}
-		
+
 		Member member = eventMessage.getMember();
-		GuildVoiceState memberVoiceState = member .getVoiceState();
-		
-		if(!memberVoiceState.inVoiceChannel()) {
+		GuildVoiceState memberVoiceState = member.getVoiceState();
+
+		if (!memberVoiceState.inVoiceChannel()) {
 			channel.sendMessage("You are not in a channel").queue();
 			return;
 		}
-		
-		if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-			channel.sendMessage("we are not in the same voice channel");
+
+		if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
+			channel.sendMessage("we are not in the same voice channel").queue();
 			return;
 		}
-		
+
 		String link = String.join(" ", args);
-		
+
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
-		
-		if(!helper.isURL(link)) {
-			link = "ytsearch:" + link;
+
+		String[] spotify = helper.getSpotify(link);
+		if (spotify != null) {
+			switch (spotify[1]) {
+			case "track":
+				addSpotifyTrack(channel, spotify[0]);
+			/*case "playlist":
+				String[] spotifyPlaylist = getSpotifyPlaylist(spotify[0], 0);
+				for(int i=0;i<spotifyPlaylist.length;i++) {
+					addSpotifyTrack(channel, spotifyPlaylist[i]);
+				}*/
+			}
+			return;
 		}
-		
+
+		if (!helper.isURL(link)) {
+			link = "ytsearch:" + link;
+			PlayerManager.getInstance().loadAndPlay(channel, link);
+			return;
+		}
+
 		String arg1 = args.get(0);
-		if(helper.isInteger(arg1)) {
+		if (helper.isInteger(arg1)) {
 			int number = Integer.parseInt(arg1);
 			int size = musicManager.scheduler.queue.size();
-			if(number > size) {
+			if (number > size) {
 				channel.sendMessage("track number is too big").queue();
 				return;
 			}
@@ -69,13 +93,13 @@ public class play implements Command{
 			channel.sendMessage("skiped to postion `" + number + "`").queue();
 			return;
 		}
-		
+
 		PlayerManager.getInstance().loadAndPlay(channel, link);
 	}
-	
+
 	@Override
 	public String[] getNames() {
-		return new String[]{"play", "p"};
+		return new String[] { "play", "p" };
 	}
 
 	@Override
@@ -85,11 +109,54 @@ public class play implements Command{
 
 	@Override
 	public String[] getArgs() {
-		return new String[] {"URL", "smart search(title)", "position in queue"};
+		return new String[] { "URL", "smart search(title)", "position in queue" };
 	}
 
 	@Override
 	public boolean showInHelp() {
 		return true;
+	}
+
+	private void addSpotifyTrack(TextChannel channel, String id) {
+		SpotifyApi spotifyApi = Musikman_Main.spotifyApi;
+		GetTrackRequest getTrackRequest = spotifyApi.getTrack(id).build();
+		try {
+			final Track track = getTrackRequest.execute();
+			ArtistSimplified[] artists = track.getArtists();
+
+			String link = "ytsearch:" + track.getName() + " " + artists[0].getName();
+			PlayerManager.getInstance().loadAndPlay(channel, link);
+		} catch (IOException | SpotifyWebApiException | ParseException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
+
+	private String[] getSpotifyPlaylist(String id, int offset) {
+		SpotifyApi spotifyApi = Musikman_Main.spotifyApi;
+		GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi.getPlaylistsItems(id)
+				.offset(offset)
+				.build();
+		try {
+			final Paging<PlaylistTrack> playlistTrackPaging = getPlaylistsItemsRequest.execute();
+			PlaylistTrack[] items = playlistTrackPaging.getItems();
+			String[] itemsIds;
+			if(items.length == 100) {
+				String[] spotifyPlaylist = getSpotifyPlaylist(id, offset + 100);
+				itemsIds = new String[items.length + spotifyPlaylist.length];
+				for(int i=100;i<itemsIds.length;i++) {
+					itemsIds[i] = spotifyPlaylist[i - 100];
+				}
+			}else {
+				itemsIds = new String[items.length];
+			}
+			for (int i = 0; i < items.length; i++) {
+				IPlaylistItem track = items[i].getTrack();
+				itemsIds[i] = track.getId();
+			}
+			return itemsIds;
+		} catch (IOException | SpotifyWebApiException | ParseException e) {
+			System.out.println("Error: " + e.getMessage());
+			return null;
+		}
 	}
 }

@@ -55,6 +55,9 @@ public class admin implements Command {
 					instance.saveSoundEffects();
 					
 					channel.sendMessage("added personal Sound for").mentionUsers(idUser).queue();
+				}else if(args.get(0).equalsIgnoreCase("ProcessId")) {
+					long pid = ProcessHandle.current().pid();
+					channel.sendMessage("'ProcessID:' " + pid + " 'Current OP:' " + Information.OS).queue();
 				}
 			}
 		}

@@ -123,6 +123,12 @@ public class PlayerManager {
 				
 				if(trackURL.startsWith("ytsearch:")) {
 					musicManager.scheduler.queue(tracks.get(0));
+					channel.sendMessage("Adding to queue: `")
+					.append(tracks.get(0).getInfo().title)
+					.append("` by `")
+					.append(tracks.get(0).getInfo().author)
+					.append("`")
+					.queue();
 					return;
 				}
 				

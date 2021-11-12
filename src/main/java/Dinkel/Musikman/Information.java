@@ -62,6 +62,6 @@ public class Information {
 		return null;
 	}
 	
-	public static String spotify_clientId = "4aae44e133a94191a5ac9aef5bd7b1ea	";
-	public static String spotify_clientSecret = "274339cfd1274488a80b7795e7120220";
+	public static String spotify_clientId = "4aae44e133a94191a5ac9aef5bd7b1ea";
+	public static String spotify_clientSecret = "aae746976e474aa3bef66eca713cdd87";
 }

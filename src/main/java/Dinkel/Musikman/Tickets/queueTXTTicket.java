@@ -34,7 +34,7 @@ public class queueTXTTicket extends PollTicket{
 			for(int i=0;i<trackList.size();i++) {
 				AudioTrack track = trackList.get(i);
 				String line = "#";
-				line = line + i+1;
+				line = line + String.valueOf(i + 1);
 				line = line + " '" + track.getInfo().title + "'";
 				line = line + " by " + track.getInfo().author;
 				line = line + " [" + formatTime(track.getDuration()) + "]\n";
