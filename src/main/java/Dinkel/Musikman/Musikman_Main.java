@@ -29,6 +29,7 @@ import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.LogManager;
 import Dinkel.Musikman.Manager.TicketManager;
 import Dinkel.Musikman.Manager.customJoinSounds;
+import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -37,7 +38,10 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
+
 import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
@@ -48,19 +52,20 @@ import java.util.concurrent.CompletionException;
 public class Musikman_Main {
 
 	public JDA jda;
-	
+
 	public static String prefix = "!";
+
+	public static SpotifyApi spotifyApi;
 	
 	public static void main(String[] args) throws LoginException {
-		// TODO Auto-generated method stub
 		Thread printingHook = new Thread(() -> System.out.println("In the middle of a shutdown"));
 		new Musikman_Main(args);
 	}
-	
+
 	public Musikman_Main(String[] args) throws LoginException {
 		jda = JDABuilder.createDefault(Information.Token).build();
 		jda.getPresence().setStatus(OnlineStatus.IDLE);
-		
+
 		CommandManager manager = CommandManager.getInstance();
 		manager.addCommand(new help());
 		manager.addCommand(new join());
@@ -87,38 +92,34 @@ public class Musikman_Main {
 		jda.addEventListener(TicketManager.getInstance());
 		jda.addEventListener(new LogManager());
 		jda.addEventListener(customJoinSounds.getInstance());
-		
+
 		try {
 			jda.awaitReady();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(args.length != 0) {
+		if (args.length != 0) {
 			TextChannel channel = jda.getTextChannelById(args[0]);
 			channel.sendMessage("im back on").queue();
 		}
-		
-		//testSpotify();
+
+		initSpotify();
 	}
-	
-	public void testSpotify() {
-		 SpotifyApi spotifyApi = new SpotifyApi.Builder()
-				    .setClientId(Information.spotify_clientId)
-				    .setClientSecret(Information.spotify_clientSecret)
-				    .build();
-		 ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
-				    .build();
-		 try {
-		      final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
 
-		      // Set access token for further "spotifyApi" object usage
-		      spotifyApi.setAccessToken(clientCredentials.getAccessToken());
+	public void initSpotify() {
+		spotifyApi = new SpotifyApi.Builder().setClientId(Information.spotify_clientId)
+				.setClientSecret(Information.spotify_clientSecret).build();
+		ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
+		try {
+			final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
 
-		      System.out.println("Expires in: " + clientCredentials.getExpiresIn());
-		    } catch (IOException | SpotifyWebApiException | ParseException e) {
-		      System.out.println("Error: " + e.getMessage());
-		    }
+			spotifyApi.setAccessToken(clientCredentials.getAccessToken());
+
+			System.out.println("Expires in: " + clientCredentials.getExpiresIn());
+		} catch (IOException | SpotifyWebApiException | ParseException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 	}
 
 }
