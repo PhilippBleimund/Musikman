@@ -5,8 +5,8 @@ import java.io.IOException;
 import javax.security.auth.login.LoginException;
 
 import Dinkel.Musikman.Commands.addCustomSound;
-import Dinkel.Musikman.Commands.admin;
 import Dinkel.Musikman.Commands.help;
+import Dinkel.Musikman.Commands.Admin.admin;
 import Dinkel.Musikman.Commands.Music.join;
 import Dinkel.Musikman.Commands.Music.leave;
 import Dinkel.Musikman.Commands.Music.loop;
