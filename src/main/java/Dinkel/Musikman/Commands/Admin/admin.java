@@ -39,9 +39,12 @@ public class admin implements Command {
 		for(int i=0;i<Information.admins.length;i++) {
 			if(idLong == Information.admins[i]) {
 				i = Integer.MAX_VALUE;
-				for(int j=0;j<commands.size();j++) {
-					Command command = commands.get(j);
-					for(int k=0;k<command.getArgs();)
+				for(Command c : commands) {
+					for(int j=0;j<c.getNames().length;j++) {
+						if(c.getNames()[j].equalsIgnoreCase(argument)) {
+							c.commandCode(eventMessage, args);
+						}
+					}
 				}
 			}
 		}

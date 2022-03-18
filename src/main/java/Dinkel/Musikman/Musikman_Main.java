@@ -63,8 +63,19 @@ public class Musikman_Main {
 	}
 
 	public Musikman_Main(String[] args) throws LoginException {
-		jda = JDABuilder.createDefault(Information.Token).build();
-		jda.getPresence().setStatus(OnlineStatus.IDLE);
+		
+		if(args[0].equals("MusikMan")) {
+			jda = JDABuilder.createDefault(Information.TokenMusikMan).build();
+			prefix = "!";
+		}else if (args[0].equals("MusikFrau")) {
+			jda = JDABuilder.createDefault(Information.TokenMusikFrau).build();	
+			prefix = "?";
+		}else {
+			System.out.println("MusikMan or MusikFrau");
+			System.exit(0);
+		}
+		
+		jda.getPresence().setStatus(OnlineStatus.ONLINE);
 
 		CommandManager manager = CommandManager.getInstance();
 		manager.addCommand(new help());

@@ -3,6 +3,7 @@ package Dinkel.Musikman.Commands;
 import java.awt.Color;
 import java.util.List;
 
+import Dinkel.Musikman.Musikman_Main;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.TicketManager;
@@ -21,9 +22,9 @@ public class help implements Command {
 				String[] names = command.getNames();
 				for(int j=0;j<names.length;j++) {
 					if(j+1 != names.length)
-						messageAction.append("`!" + names[j] + "`, ");
+						messageAction.append("`"+ Musikman_Main.prefix + names[j] + "`, ");
 					else
-						messageAction.append("`!" + names[j] + "`");
+						messageAction.append("`"+ Musikman_Main.prefix + names[j] + "`");
 				}
 				
 				String[] commandArgs = command.getArgs();
