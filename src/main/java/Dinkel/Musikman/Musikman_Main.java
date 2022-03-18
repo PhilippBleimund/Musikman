@@ -110,7 +110,7 @@ public class Musikman_Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (args.length != 0) {
+		if (args.length != 0 && args[0].matches("[+-]?\\d*(\\.\\d+)?")) {
 			TextChannel channel = jda.getTextChannelById(args[0]);
 			channel.sendMessage("im back on").queue();
 		}
