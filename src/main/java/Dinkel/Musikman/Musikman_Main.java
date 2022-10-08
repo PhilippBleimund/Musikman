@@ -1,6 +1,7 @@
 package Dinkel.Musikman;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 import javax.security.auth.login.LoginException;
 
@@ -34,6 +35,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 //import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
@@ -46,6 +48,8 @@ public class Musikman_Main {
 	public static String prefix = "!";
 
 	public static SpotifyApi spotifyApi;
+
+	public String token;
 	
 	public static void main(String[] args) throws LoginException {
 		Thread printingHook = new Thread(() -> System.out.println("In the middle of a shutdown"));
@@ -55,16 +59,20 @@ public class Musikman_Main {
 	public Musikman_Main(String[] args) throws LoginException {
 		
 		if(args[0].equals("MusikMan")) {
-			jda = JDABuilder.createDefault(Information.TokenMusikMan).build();
+			token = Information.TokenMusikMan;
 			prefix = "!";
 		}else if (args[0].equals("MusikFrau")) {
-			jda = JDABuilder.createDefault(Information.TokenMusikFrau).build();	
+			token = Information.TokenMusikFrau;
 			prefix = "?";
 		}else {
 			System.out.println("MusikMan or MusikFrau");
 			System.exit(0);
 		}
 		
+		jda = JDABuilder.createDefault(token)
+						.enableIntents(EnumSet.allOf(GatewayIntent.class))
+						.build();
+
 		jda.getPresence().setStatus(OnlineStatus.ONLINE);
 
 		CommandManager manager = CommandManager.getInstance();
