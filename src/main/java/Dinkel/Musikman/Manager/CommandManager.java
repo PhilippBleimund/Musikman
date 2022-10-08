@@ -18,7 +18,7 @@ public class CommandManager extends ListenerAdapter {
 		commands.add(command);
 	}
 
-	public void onGuildMessageReceived(MessageReceivedEvent  eventMessage) {
+	public void onMessageReceived(MessageReceivedEvent  eventMessage) {
 		String[] args = eventMessage.getMessage().getContentRaw().split("\\s+");
 
 		List<String> argsList = Arrays.asList(args).subList(1, args.length);
