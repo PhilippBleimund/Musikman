@@ -3,8 +3,7 @@ package Dinkel.Musikman.Manager;
 import java.util.ArrayList;
 import java.util.List;
 
-import Dinkel.Musikman.Lavaplayer.PlayerManager;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class TicketManager extends ListenerAdapter{
@@ -21,7 +20,7 @@ public class TicketManager extends ListenerAdapter{
 		tickets.remove(ticket);
 	}
 	
-	public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent reactionEvent) {
+	public void onGuildMessageReactionAdd(MessageReactionAddEvent reactionEvent) {
 		System.out.println("reactionAdd");
 		for(int i=0;i<tickets.size();i++) {
 			PollTicket t = tickets.get(i);

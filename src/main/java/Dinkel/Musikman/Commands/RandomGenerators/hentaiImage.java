@@ -3,15 +3,9 @@ package Dinkel.Musikman.Commands.RandomGenerators;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,7 +16,8 @@ import Dinkel.Musikman.Information;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.TicketManager;
 import Dinkel.Musikman.Tickets.deleteMessage;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class hentaiImage implements Command {
 
@@ -49,10 +44,10 @@ public class hentaiImage implements Command {
 	}
 
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
 		String file = getRandomImage();
 		eventMessage.getChannel().sendMessage(file).queue(message -> {
-			message.addReaction("❌").queue();
+			message.addReaction(Emoji.fromUnicode("U+274C")).queue();
 			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));
 		});
 	}

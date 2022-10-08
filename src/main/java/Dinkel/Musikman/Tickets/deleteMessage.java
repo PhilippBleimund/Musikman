@@ -2,7 +2,7 @@ package Dinkel.Musikman.Tickets;
 
 import Dinkel.Musikman.Manager.PollTicket;
 import Dinkel.Musikman.Manager.TicketManager;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 public class deleteMessage extends PollTicket{
 
@@ -17,8 +17,8 @@ public class deleteMessage extends PollTicket{
 	}
 	
 	@Override
-	public void TicketCode(GuildMessageReactionAddEvent reactionEvent) {
-		if(reactionEvent.getReactionEmote().getEmoji().equals("❌")) {
+	public void TicketCode(MessageReactionAddEvent reactionEvent) {
+		if(reactionEvent.getEmoji().asUnicode().equals("U+274C")) {
 			for(int i=0;i<messageId.length;i++) {
 				reactionEvent.getChannel().deleteMessageById(messageId[i]).queue();				
 			}
@@ -27,7 +27,7 @@ public class deleteMessage extends PollTicket{
 	}
 
 	@Override
-	public boolean isRightTicket(GuildMessageReactionAddEvent reactionEvent) {
+	public boolean isRightTicket(MessageReactionAddEvent reactionEvent) {
 		return (reactionEvent.getMessageIdLong() == this.messageId[0] && !reactionEvent.getUser().isBot());
 	}
 

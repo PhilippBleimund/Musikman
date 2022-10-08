@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import Dinkel.Musikman.Musikman_Main;
-import Dinkel.Musikman.Commands.help;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class CommandManager extends ListenerAdapter {
@@ -19,7 +18,7 @@ public class CommandManager extends ListenerAdapter {
 		commands.add(command);
 	}
 
-	public void onGuildMessageReceived(GuildMessageReceivedEvent eventMessage) {
+	public void onGuildMessageReceived(MessageReceivedEvent  eventMessage) {
 		String[] args = eventMessage.getMessage().getContentRaw().split("\\s+");
 
 		List<String> argsList = Arrays.asList(args).subList(1, args.length);
@@ -35,7 +34,7 @@ public class CommandManager extends ListenerAdapter {
 		}
 	}
 
-	public void CommandRequest(GuildMessageReceivedEvent eventMessage, String commandName) {
+	public void CommandRequest(MessageReceivedEvent  eventMessage, String commandName) {
 		String[] args = eventMessage.getMessage().getContentRaw().split("\\s+");
 
 		List<String> argsList = Arrays.asList(args).subList(1, args.length);

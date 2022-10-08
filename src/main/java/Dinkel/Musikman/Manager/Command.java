@@ -2,11 +2,11 @@ package Dinkel.Musikman.Manager;
 
 import java.util.List;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public interface Command {
 
-	public abstract void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args);
+	public abstract void commandCode(MessageReceivedEvent  eventMessage, List<String> args);
 	
 	public abstract String[] getNames();
 	

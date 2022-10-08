@@ -4,7 +4,8 @@ import java.io.IOException;
 
 import javax.security.auth.login.LoginException;
 
-import Dinkel.Musikman.Commands.addCustomSound;
+import org.apache.hc.core5.http.ParseException;
+
 import Dinkel.Musikman.Commands.help;
 import Dinkel.Musikman.Commands.Admin.admin;
 import Dinkel.Musikman.Commands.Music.join;
@@ -28,26 +29,15 @@ import Dinkel.Musikman.Commands.RandomGenerators.rule34random;
 import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.LogManager;
 import Dinkel.Musikman.Manager.TicketManager;
-import Dinkel.Musikman.Manager.customJoinSounds;
-import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.TextChannel;
-
+//import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
-import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
-import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
-
-import org.apache.hc.core5.http.ParseException;
-
-import java.io.IOException;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 
 public class Musikman_Main {
 
@@ -97,12 +87,12 @@ public class Musikman_Main {
 		manager.addCommand(new konachan());
 		manager.addCommand(new saveQueue());
 		manager.addCommand(new volume());
-		manager.addCommand(new addCustomSound());
+		//manager.addCommand(new addCustomSound());
 		manager.addCommand(new hentaiImage());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		jda.addEventListener(new LogManager());
-		jda.addEventListener(customJoinSounds.getInstance());
+		//jda.addEventListener(customJoinSounds.getInstance());
 
 		try {
 			jda.awaitReady();

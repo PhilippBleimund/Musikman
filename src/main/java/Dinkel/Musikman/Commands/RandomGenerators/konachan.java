@@ -9,14 +9,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import Dinkel.Musikman.Manager.Command;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class konachan implements Command{
 
 	List<String> URLs;
 	
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
 		// TODO Auto-generated method stub
 		getKonanImageURL();
 	}

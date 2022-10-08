@@ -4,14 +4,14 @@ import java.util.List;
 
 import Dinkel.Musikman.Information;
 import Dinkel.Musikman.Manager.Command;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class adminProcessId implements Command{
 
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		TextChannel channel = eventMessage.getChannel();
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		
 		long pid = ProcessHandle.current().pid();
 		channel.sendMessage("'ProcessID:' " + pid + " 'Current OP:' " + Information.OS).queue();
