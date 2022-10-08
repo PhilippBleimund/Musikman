@@ -13,15 +13,16 @@ import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.TicketManager;
 import Dinkel.Musikman.Tickets.queueTXTTicket;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 
 public class queue implements Command{
 
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		TextChannel channel = eventMessage.getChannel();
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
 		BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
 		
@@ -32,29 +33,29 @@ public class queue implements Command{
 		
 		int trackCount = Math.min(queue.size(), 20);
 		List<AudioTrack> trackList = new ArrayList<>(queue);
-		MessageAction messageAction = channel.sendMessage("**Current Queue:**\n");
+		MessageCreateAction messageAction = channel.sendMessage("**Current Queue:**\n");
 		
 		for(int i=0;i<trackCount;i++) {
 			AudioTrack track = trackList.get(i);
 			AudioTrackInfo info = track.getInfo();
 			
-			messageAction.append('#')
-				.append(String.valueOf(i + 1))
-				.append(" `")
-				.append(info.title)
-				.append(" by ")
-				.append(info.author)
-				.append("` [`")
-				.append(formatTime(track.getDuration()))
-				.append("`]\n");
+			messageAction.addContent("#")
+				.addContent(String.valueOf(i + 1))
+				.addContent(" `")
+				.addContent(info.title)
+				.addContent(" by ")
+				.addContent(info.author)
+				.addContent("` [`")
+				.addContent(formatTime(track.getDuration()))
+				.addContent("`]\n");
 		}
 		
 		if(trackList.size() > trackCount) {
-			messageAction.append("And `")
-				.append(String.valueOf(trackList.size() - trackCount))
-				.append("` more...");
+			messageAction.addContent("And `")
+				.addContent(String.valueOf(trackList.size() - trackCount))
+				.addContent("` more...");
 			messageAction.queue(message -> {
-				message.addReaction("⏬").queue();
+				message.addReaction(Emoji.fromUnicode("U+23EC")).queue();
 				System.out.println("moin");
 				TicketManager.getInstance().addTicket(new queueTXTTicket(message.getIdLong(), trackList));
 			});

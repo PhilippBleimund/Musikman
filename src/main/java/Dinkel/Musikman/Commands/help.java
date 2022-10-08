@@ -1,46 +1,52 @@
 package Dinkel.Musikman.Commands;
 
-import java.awt.Color;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ser.impl.PropertySerializerMap.SerializerAndMapResult;
 
 import Dinkel.Musikman.Musikman_Main;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.CommandManager;
-import Dinkel.Musikman.Manager.TicketManager;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
+
 
 public class help implements Command {
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		MessageAction messageAction = eventMessage.getChannel().sendMessage("**help**\n");
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+		MessageChannelUnion messageActionUnion = eventMessage.getChannel();
+		TextChannel messageAction = messageActionUnion.asTextChannel();
+		MessageCreateAction sendMessage = messageAction.sendMessage("**help**\n");
+	
+	
 		List<Command> commands = CommandManager.getInstance().commands;
 		for(int i=0;i<commands.size();i++) {
 			Command command = commands.get(i);
 			if(command.showInHelp()) {
-				messageAction.append("# ");
+				sendMessage.addContent("# ");
 				String[] names = command.getNames();
 				for(int j=0;j<names.length;j++) {
 					if(j+1 != names.length)
-						messageAction.append("`"+ Musikman_Main.prefix + names[j] + "`, ");
+						sendMessage.addContent("`"+ Musikman_Main.prefix + names[j] + "`, ");
 					else
-						messageAction.append("`"+ Musikman_Main.prefix + names[j] + "`");
+						sendMessage.addContent("`"+ Musikman_Main.prefix + names[j] + "`");
 				}
 				
 				String[] commandArgs = command.getArgs();
 				if(commandArgs != null) {
-					messageAction.append(" args: ");
+					sendMessage.addContent(" args: ");
 					for(int j=0;j<commandArgs.length;j++) {
 						if(j+1 != commandArgs.length)
-							messageAction.append("`[" + commandArgs[j] + "]`, ");
+							sendMessage.addContent("`[" + commandArgs[j] + "]`, ");
 						else
-							messageAction.append("`[" + commandArgs[j] + "]`");
+							sendMessage.addContent("`[" + commandArgs[j] + "]`");
 					}
 				}
-				messageAction.append(" --> **`" + command.getDescription() + "`**\n");
+				sendMessage.addContent(" --> **`" + command.getDescription() + "`**\n");
 			}
 		}
-		messageAction.queue();
+		sendMessage.queue();
 	}
 
 	@Override

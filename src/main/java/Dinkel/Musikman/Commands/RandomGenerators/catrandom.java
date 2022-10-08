@@ -1,28 +1,20 @@
 package Dinkel.Musikman.Commands.RandomGenerators;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-
 import org.apache.commons.io.IOUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.TicketManager;
 import Dinkel.Musikman.Tickets.deleteMessage;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.utils.AttachmentOption;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.utils.FileUpload;
 
 public class catrandom implements Command{
 
@@ -33,7 +25,7 @@ public class catrandom implements Command{
 	private Random rnd = new Random();
 	
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
 		
 		String URL = CatJpg;
 		String format = "jpg";
@@ -49,8 +41,9 @@ public class catrandom implements Command{
 		}
 		
 		eventMessage.getChannel().sendTyping().queue();
-		eventMessage.getChannel().sendMessage(faces[rnd.nextInt(faces.length)]).addFile(getRandomCat(URL, 0), "cat." + format).queue(message -> {
-			message.addReaction("❌").queue();
+
+		eventMessage.getChannel().sendMessage(faces[rnd.nextInt(faces.length)]).addFiles(FileUpload.fromData(getRandomCat(URL, 0), "cat." + format)).queue(message -> {
+			message.addReaction(Emoji.fromUnicode("U+274C")).queue();
 			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));
 		});
 	}

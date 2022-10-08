@@ -13,8 +13,8 @@ import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.IPlaylistItem;
@@ -28,8 +28,8 @@ import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 public class play implements Command {
 
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		TextChannel channel = eventMessage.getChannel();
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+		TextChannel channel = eventMessage.getChannel().asTextChannel();
 
 		if (args.isEmpty()) {
 			channel.sendMessage("add arguments").queue();
@@ -39,7 +39,7 @@ public class play implements Command {
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 
-		if (!selfVoiceState.inVoiceChannel()) {
+		if (!selfVoiceState.inAudioChannel()) {
 			CommandManager.getInstance().CommandRequest(eventMessage, "join");
 			return;
 		}
@@ -47,7 +47,7 @@ public class play implements Command {
 		Member member = eventMessage.getMember();
 		GuildVoiceState memberVoiceState = member.getVoiceState();
 
-		if (!memberVoiceState.inVoiceChannel()) {
+		if (!memberVoiceState.inAudioChannel()) {
 			channel.sendMessage("You are not in a channel").queue();
 			return;
 		}

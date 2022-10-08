@@ -1,22 +1,22 @@
 package Dinkel.Musikman.Commands.Admin;
 
-import java.io.File;
+/*import java.io.File;
 import java.util.List;
 
 import Dinkel.Musikman.Information;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.customJoinSounds;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.Message.Attachment;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class adminPersonalSound implements Command{
 
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
-		TextChannel channel = eventMessage.getChannel();
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		
 		Message message = eventMessage.getMessage();
 		List<User> mentionedUsers = message.getMentionedUsers();
@@ -61,3 +61,4 @@ public class adminPersonalSound implements Command{
 	}
 
 }
+*/

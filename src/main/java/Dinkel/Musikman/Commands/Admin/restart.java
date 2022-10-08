@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Dinkel.Musikman.Manager.Command;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class restart implements Command{
 
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
 		long channelId = eventMessage.getChannel().getIdLong();
 		restartApplication(Long.toString(channelId));
 		return;

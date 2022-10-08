@@ -1,20 +1,12 @@
 package Dinkel.Musikman.Commands.Admin;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Dinkel.Musikman.Information;
 import Dinkel.Musikman.Manager.Command;
-import Dinkel.Musikman.Manager.customJoinSounds;
-import Dinkel.Musikman.helper.helper;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.Message.Attachment;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class admin implements Command {
 
@@ -22,16 +14,16 @@ public class admin implements Command {
 	
 	public admin() {
 		commands.add(new adminLock());
-		commands.add(new adminPersonalSound());
+		//commands.add(new adminPersonalSound());
 		commands.add(new adminProcessId());
 		commands.add(new restart());
 		commands.add(new shutdown());
 	}
 	
 	@Override
-	public void commandCode(GuildMessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
 		
-		TextChannel channel = eventMessage.getChannel();
+		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		
 		String argument = args.get(0);
 		

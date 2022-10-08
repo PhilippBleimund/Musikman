@@ -8,7 +8,6 @@ import java.util.Map;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.source.bandcamp.BandcampAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.beam.BeamAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.http.HttpAudioSourceManager;
@@ -22,11 +21,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioReference;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
-import Dinkel.Musikman.Manager.TicketManager;
-import Dinkel.Musikman.Tickets.playlistTicket;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 
 public class PlayerManager {
 
@@ -145,8 +142,8 @@ public class PlayerManager {
 			public void trackLoaded(AudioTrack track) {
 				musicManager.scheduler.queue(track);
 
-				channel.sendMessage("Adding to queue: `").append(track.getInfo().title).append("` by `")
-						.append(track.getInfo().author).append("`").queue();
+				channel.sendMessage("Adding to queue: `").addContent(track.getInfo().title).addContent("` by `")
+						.addContent(track.getInfo().author).addContent("`").queue();
 			}
 
 			@Override
@@ -155,13 +152,13 @@ public class PlayerManager {
 
 				if (trackURL.startsWith("ytsearch:")) {
 					musicManager.scheduler.queue(tracks.get(0));
-					channel.sendMessage("Adding to queue: `").append(tracks.get(0).getInfo().title).append("` by `")
-							.append(tracks.get(0).getInfo().author).append("`").queue();
+					channel.sendMessage("Adding to queue: `").addContent(tracks.get(0).getInfo().title).addContent("` by `")
+							.addContent(tracks.get(0).getInfo().author).addContent("`").queue();
 					return;
 				}
 
-				channel.sendMessage("Adding to queue: `").append(String.valueOf(tracks.size()))
-						.append("` tracks from playlist `").append(playlist.getName()).append("`").queue();
+				channel.sendMessage("Adding to queue: `").addContent(String.valueOf(tracks.size()))
+						.addContent("` tracks from playlist `").addContent(playlist.getName()).addContent("`").queue();
 
 				for (AudioTrack track : tracks) {
 					musicManager.scheduler.queue(track);

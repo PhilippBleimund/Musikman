@@ -1,13 +1,7 @@
 package Dinkel.Musikman.Manager;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -15,16 +9,14 @@ import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import Dinkel.Musikman.Information;
 import Dinkel.Musikman.SaveData.saveManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Message.Attachment;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -68,7 +60,7 @@ public class LogManager extends ListenerAdapter{
 		MessageObject.put("authorName", author.getName());
 		MessageObject.put("authorId", author.getId());
 		
-		MessageChannel channel = event.getChannel();
+		MessageChannelUnion channel = event.getChannel();
 		MessageObject.put("chanelName", channel.getName());
 		MessageObject.put("channelId", channel.getId());
 		

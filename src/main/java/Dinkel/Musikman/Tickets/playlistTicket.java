@@ -8,7 +8,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import Dinkel.Musikman.Lavaplayer.GuildMusicManager;
 import Dinkel.Musikman.Manager.PollTicket;
 import Dinkel.Musikman.Manager.TicketManager;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 public class playlistTicket extends PollTicket{
 
@@ -23,24 +23,24 @@ public class playlistTicket extends PollTicket{
 	}
 	
 	@Override
-	public void TicketCode(GuildMessageReactionAddEvent reactionEvent) {
-		if(reactionEvent.getReactionEmote().getEmoji().equals("👍")) {
+	public void TicketCode(MessageReactionAddEvent reactionEvent) {
+		if(reactionEvent.getEmoji().asUnicode().equals("U+1F44D")) {
 			List<AudioTrack> tracks = playlist.getTracks();
 			for(AudioTrack track : tracks) {
 				musicManager.scheduler.queue(track);
 			}
 			reactionEvent.getChannel().sendMessage("Adding to queue: `")
-			.append(String.valueOf(tracks.size()))
-			.append("` tracks from playlist `")
-			.append(playlist.getName())
-			.append("`")
+			.addContent(String.valueOf(tracks.size()))
+			.addContent("` tracks from playlist `")
+			.addContent(playlist.getName())
+			.addContent("`")
 			.queue();
 		}
 		TicketManager.getInstance().removeTicket(this);
 	}
 
 	@Override
-	public boolean isRightTicket(GuildMessageReactionAddEvent reactionEvent) {
+	public boolean isRightTicket(MessageReactionAddEvent reactionEvent) {
 		if(reactionEvent.getMessageIdLong() == messageId && !reactionEvent.getUser().isBot())
 			return true;
 		else
