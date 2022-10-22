@@ -17,35 +17,66 @@ public class help implements Command {
 	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
 		MessageChannelUnion messageActionUnion = eventMessage.getChannel();
 		TextChannel messageAction = messageActionUnion.asTextChannel();
-		MessageCreateAction sendMessage = messageAction.sendMessage("**help**\n");
-	
-	
+
 		List<Command> commands = CommandManager.getInstance().commands;
+		
+		int maxLength = 0;
+		for(int i=0;i<commands.size();i++){
+			Command command = commands.get(i);
+			if(command.showInHelp()) {
+				String[] names = command.getNames();
+				String fullName = "";
+				for(int j=0;j<names.length;j++) {
+					if(j+1 != names.length)
+						fullName = fullName + (Musikman_Main.prefix + names[j] + ", ");
+					else
+						fullName = fullName + (Musikman_Main.prefix + names[j]);
+				}
+				
+				if(maxLength < fullName.length())
+					maxLength = fullName.length();
+			}
+		}
+
+		MessageCreateAction sendMessage = messageAction.sendMessage("**help**\n\n");
+		sendMessage.addContent("```");
+	
 		for(int i=0;i<commands.size();i++) {
 			Command command = commands.get(i);
 			if(command.showInHelp()) {
 				sendMessage.addContent("# ");
 				String[] names = command.getNames();
+				String preName = "";
 				for(int j=0;j<names.length;j++) {
 					if(j+1 != names.length)
-						sendMessage.addContent("`"+ Musikman_Main.prefix + names[j] + "`, ");
+						preName = preName + (Musikman_Main.prefix + names[j] + ", ");
 					else
-						sendMessage.addContent("`"+ Musikman_Main.prefix + names[j] + "`");
+						preName = preName + (Musikman_Main.prefix + names[j]);
 				}
 				
+				if(preName.length() < maxLength){
+					int diff = maxLength - preName.length();
+					for(int j=0;j<diff;j++){
+						preName = preName + " ";
+					}
+				}
+				sendMessage.addContent(preName);
+
 				String[] commandArgs = command.getArgs();
 				if(commandArgs != null) {
 					sendMessage.addContent(" args: ");
 					for(int j=0;j<commandArgs.length;j++) {
 						if(j+1 != commandArgs.length)
-							sendMessage.addContent("`[" + commandArgs[j] + "]`, ");
+							sendMessage.addContent("[" + commandArgs[j] + "], ");
 						else
-							sendMessage.addContent("`[" + commandArgs[j] + "]`");
+							sendMessage.addContent("[" + commandArgs[j] + "]");
 					}
 				}
 				sendMessage.addContent(" --> **`" + command.getDescription() + "`**\n");
 			}
 		}
+
+		sendMessage.addContent("```");
 		sendMessage.queue();
 	}
 

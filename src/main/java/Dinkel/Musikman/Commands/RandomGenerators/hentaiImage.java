@@ -23,17 +23,9 @@ public class hentaiImage implements Command {
 
 	private String[] links;
 	
-	private File LOCATION;
+	private File LOCATION = Information.getHentaiImages();
 	
 	public hentaiImage() {
-		
-		String OS = System.getProperty("os.name");
-		System.out.println(OS);
-		if(OS.indexOf("Windows") >= 0) {
-			LOCATION = Information.windowsHentaiImages;
-		}else if(OS.contains("Linux")) {
-			LOCATION = Information.linuxHentaiImages;
-		}
 		
 		try {
 			links = prepareArray(LOCATION);
