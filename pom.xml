@@ -60,7 +60,11 @@
 			<artifactId>spotify-web-api-java</artifactId>
 			<version>7.0.0</version>
 		</dependency>
-
+		<dependency>
+  			<groupId>com.SimonKrampe.csinvestmenttracker</groupId>
+  			<artifactId>cs-investment-tracker</artifactId>
+  			<version>v0.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

@@ -4,17 +4,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.input.WindowsLineEndingInputStream;
+
 public class Information {
 
-	public static String OS = System.getProperty("os.name");
+	public static final String OS = System.getProperty("os.name");
+
+	public static final String user = System.getProperty("user.name");
 	
-	public static String TokenMusikMan = "ODg4NDQwMjc5NjcyMTgwNzY2.YUSufQ.IxTf_QecGnEyQz8FBef6ijSniI8";
+	public static final String TokenMusikMan = "ODg4NDQwMjc5NjcyMTgwNzY2.YUSufQ.IxTf_QecGnEyQz8FBef6ijSniI8";
 	
 	//public static String TokenPhilippMusikMan = "NDA2NTQwNzAxNzYyMDYwMzE4.X_n6GQ.GgbJhlYASP1X8zuuJ687NDUJtPY";
 	
-	public static String TokenMusikFrau = "OTU0NDQ4MjMzMzE5NTI2NDMw.YjTRLw.BX7q8G3n17ale7_4cwlUMiJ8xBY";
+	public static final String TokenMusikFrau = "OTU0NDQ4MjMzMzE5NTI2NDMw.YjTRLw.BX7q8G3n17ale7_4cwlUMiJ8xBY";
 	
-	public static long[] admins = new long[]{
+	public static final long[] admins = new long[]{
 		406540701762060318l,	//Philipp Bleimund
 		395012173702758411l		//Simon Krampe
 	};
@@ -28,42 +32,47 @@ public class Information {
 		return false;
 	}
 	
-	public static File linuxCustomSounds = new File("/home/pi/Music/customSounds");
-	public static File windowsCustomSounds = new File("C:\\Users\\Philipp Bleimund\\Music\\Musikman");
+	private static final String[] linuxCustomSounds = new String[]{"/home/","/Music/customSounds"};
+	private static final String[] windowsCustomSounds = new String[]{"C:\\Users\\", "\\Music\\Musikman"};
 	public static File getCustomSounds() {
 		if(OS.indexOf("Windows") >= 0) {
-			String formated = windowsCustomSounds.getAbsolutePath().replace('\\', '/');
-			return new File(formated);
+			return generateFile(windowsCustomSounds);
 		}else if(OS.contains("Linux")) {
-			return linuxCustomSounds;
+			return generateFile(linuxCustomSounds);
 		}
 		return null;
 	}
 	
-	public static File linuxHentaiImages = new File("/home/pi/Pictures/hentaiImages/links.json");
-	public static File windowsHentaiImages = new File("C:\\Users\\Philipp Bleimund\\Desktop\\DiscordChatExporter\\Chats\\hanime.tv\\links.json");
+	private static final String[] linuxHentaiImages = new String[]{"/home/","/Pictures/hentaiImages/links.json"};
+	private static final String[] windowsHentaiImages = new String[]{"C:\\Users\\", "\\Desktop\\DiscordChatExporter\\Chats\\hanime.tv\\links.json"};
 	public static File getHentaiImages() {
 		if(OS.indexOf("Windows") >= 0) {
-			String formated = windowsHentaiImages.getAbsolutePath().replace('\\', '/');
-			return new File(formated);
+			return generateFile(windowsHentaiImages);
 		}else if(OS.contains("Linux")) {
-			return linuxHentaiImages;
+			return generateFile(linuxHentaiImages);
 		}
 		return null;
 	}
 	
-	public static File linuxLogFile = new File("/home/pi/Documents/Musikmann_Bot/Musikman/LogIndex.json");
-	public static File windowsLogFile = new File("C:\\Users\\Philipp Bleimund\\eclipse-workspace\\newStart\\Bot_Musikman\\LogIndex.json");
+	private static final String[] linuxLogFile = new String[]{"/home/","/Documents/Musikmann_Bot/Musikman/LogIndex.json"};
+	private static final String[] windowsLogFile = new String[]{"C:\\Users\\", "\\eclipse-workspace\\newStart\\Bot_Musikman\\LogIndex.json"};
 	public static File getLogFile() {
 		if(OS.indexOf("Windows") >= 0) {
-			String formated = windowsLogFile.getAbsolutePath().replace('\\', '/');
-			return new File(formated);
+			return generateFile(windowsLogFile);
 		}else if(OS.contains("Linux")) {
-			return linuxLogFile;
+			return generateFile(linuxLogFile);
 		}
 		return null;
 	}
 	
-	public static String spotify_clientId = "4aae44e133a94191a5ac9aef5bd7b1ea";
-	public static String spotify_clientSecret = "aae746976e474aa3bef66eca713cdd87";
+	private static File generateFile(String[] seperatedFile){
+		String combined = seperatedFile[0] + user + seperatedFile[1];
+		String formated = combined.replace('\\', '/');
+		File file = new File(formated);
+		file.getParentFile().mkdirs();
+		return file;
+	}
+
+	public static final String spotify_clientId = "4aae44e133a94191a5ac9aef5bd7b1ea";
+	public static final String spotify_clientSecret = "aae746976e474aa3bef66eca713cdd87";
 }
