@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.utils.FileUpload;
 
-public class catrandom implements Command{
+public class catrandom extends Command{
 
 	private final String CatJpg = "https://thecatapi.com/api/images/get?format=src&type=jpg";
 	private final String CatGif = "https://thecatapi.com/api/images/get?format=src&type=gif";
@@ -25,7 +25,7 @@ public class catrandom implements Command{
 	private Random rnd = new Random();
 	
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		
 		String URL = CatJpg;
 		String format = "jpg";

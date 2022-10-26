@@ -19,7 +19,7 @@ import Dinkel.Musikman.Tickets.deleteMessage;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class hentaiImage implements Command {
+public class hentaiImage extends Command {
 
 	private String[] links;
 	
@@ -36,7 +36,7 @@ public class hentaiImage implements Command {
 	}
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		String file = getRandomImage();
 		eventMessage.getChannel().sendMessage(file).queue(message -> {
 			message.addReaction(Emoji.fromUnicode("U+274C")).queue();

@@ -23,13 +23,13 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.utils.FileUpload;
 
-public class rule34random implements Command{
+public class rule34random extends Command{
 
 	private String[] faces = new String[] {"( ͡° ͜ʖ ͡°)", "( ͡⚆ ͜ʖ ͡⚆ )", "( ͝° ͜ʖ͡°)", "/╲/( ͡☉ ͜ʖ ͡☉)/\\╱\\", "ಠ ﭛ ಠ"};
 	Random rnd = new Random();
 	
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		eventMessage.getChannel().sendMessage(faces[rnd.nextInt(faces.length)]).addFiles(FileUpload.fromData(getRule34Image(), "rule34.jpg").asSpoiler()).queue(message -> {
 			message.addReaction(Emoji.fromUnicode("U+274C")).queue();
 			TicketManager.getInstance().addTicket(new deleteMessage(new long[]{message.getIdLong(), eventMessage.getMessageIdLong()}));

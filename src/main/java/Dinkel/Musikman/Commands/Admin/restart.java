@@ -9,10 +9,10 @@ import java.util.List;
 import Dinkel.Musikman.Manager.Command;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class restart implements Command{
+public class restart extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		long channelId = eventMessage.getChannel().getIdLong();
 		restartApplication(Long.toString(channelId));
 		return;

@@ -13,8 +13,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 
 
-public class help implements Command {
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+public class help extends Command {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		MessageChannelUnion messageActionUnion = eventMessage.getChannel();
 		TextChannel messageAction = messageActionUnion.asTextChannel();
 
