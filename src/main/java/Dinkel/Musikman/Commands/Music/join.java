@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class join implements Command {
+public class join extends Command {
 	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		Member self = eventMessage.getGuild().getSelfMember();
@@ -22,7 +22,7 @@ public class join implements Command {
 		}
 		
 		Member member = eventMessage.getMember();
-		GuildVoiceState memberVoiceState = member .getVoiceState();
+		GuildVoiceState memberVoiceState = member.getVoiceState();
 		
 		if(!memberVoiceState.inAudioChannel()) {
 			channel.sendMessage("You are not in a channel").queue();
