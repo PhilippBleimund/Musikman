@@ -18,16 +18,16 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 
-public class queue implements Command{
+public class queue extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
 		BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
 		
 		if(queue.isEmpty()) {
-			channel.sendMessage("the queue is empty");
+			this.publicExec(publicExec, () -> {channel.sendMessage("the queue is empty").queue();});
 			return;
 		}
 		
@@ -54,13 +54,14 @@ public class queue implements Command{
 			messageAction.addContent("And `")
 				.addContent(String.valueOf(trackList.size() - trackCount))
 				.addContent("` more...");
-			messageAction.queue(message -> {
-				message.addReaction(Emoji.fromUnicode("U+23EC")).queue();
-				System.out.println("moin");
-				TicketManager.getInstance().addTicket(new queueTXTTicket(message.getIdLong(), trackList));
-			});
+				this.publicExec(publicExec, () -> {
+					messageAction.queue(message -> {
+						message.addReaction(Emoji.fromUnicode("U+23EC")).queue();
+						TicketManager.getInstance().addTicket(new queueTXTTicket(message.getIdLong(), trackList));
+				});});
+				
 		}else {
-			messageAction.queue();
+			this.publicExec(publicExec, () -> {messageAction.queue();});
 		}
 	}
 	

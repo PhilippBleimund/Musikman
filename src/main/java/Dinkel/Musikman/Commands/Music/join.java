@@ -11,13 +11,13 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class join extends Command {
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
 		if(selfVoiceState.inAudioChannel()) {
-			channel.sendMessage("Im already in a voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("Im already in a voice channel").queue();});
 			return;
 		}
 		
@@ -25,7 +25,7 @@ public class join extends Command {
 		GuildVoiceState memberVoiceState = member.getVoiceState();
 		
 		if(!memberVoiceState.inAudioChannel()) {
-			channel.sendMessage("You are not in a channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("You are not in a channel").queue();});
 			return;
 		}
 		
@@ -33,7 +33,7 @@ public class join extends Command {
 		VoiceChannel memberChannel = memberVoiceState.getChannel().asVoiceChannel();
 		
 		audioManager.openAudioConnection(memberChannel);
-		channel.sendMessage("Connecting to \uD83D\uDD0A" + memberChannel.getName()).queue();
+		this.publicExec(publicExec, () -> {channel.sendMessage("Connecting to \uD83D\uDD0A" + memberChannel.getName()).queue();});
 	}
 
 	@Override
@@ -48,7 +48,6 @@ public class join extends Command {
 
 	@Override
 	public String[] getArgs() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -56,5 +55,4 @@ public class join extends Command {
 	public boolean showInHelp() {
 		return true;
 	}
-
 }

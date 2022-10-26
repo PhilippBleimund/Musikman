@@ -13,16 +13,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class volume implements Command{
+public class volume extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
 		if(!selfVoiceState.inAudioChannel()) {
-			channel.sendMessage("I need to be in a voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("I need to be in a voice channel").queue();});
 			return;
 		}
 		
@@ -30,12 +30,12 @@ public class volume implements Command{
 		GuildVoiceState memberVoiceState = member .getVoiceState();
 		
 		if(!memberVoiceState.inAudioChannel()) {
-			channel.sendMessage("You are not in a channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("You are not in a channel").queue();});
 			return;
 		}
 		
 		if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-			channel.sendMessage("we are not in the same voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("we are not in the same voice channel").queue();});
 			return;
 		}
 		
@@ -43,7 +43,7 @@ public class volume implements Command{
 		AudioPlayer audioPlayer = musicManager.audioPlayer;
 		
 		if(audioPlayer.getPlayingTrack() == null) {
-			channel.sendMessage("there is no track playing").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("there is no track playing").queue();});
 			return;
 		}
 		
@@ -51,8 +51,8 @@ public class volume implements Command{
 		if(helper.isInteger(arg0)) {
 			int intArg = Integer.valueOf(arg0);
 			if(intArg >= 0 && intArg <= 100) {
-				channel.sendMessage("set audio player volume to `" + intArg + "`").queue();
 				audioPlayer.setVolume(intArg);
+				this.publicExec(publicExec, () -> {channel.sendMessage("set audio player volume to `" + intArg + "`").queue();});
 			}
 		}
 	}

@@ -8,7 +8,7 @@ import Dinkel.Musikman.Manager.Command;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class admin implements Command {
+public class admin extends Command {
 
 	ArrayList<Command> commands = new ArrayList<Command>();
 	
@@ -21,7 +21,7 @@ public class admin implements Command {
 	}
 	
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		
@@ -34,7 +34,7 @@ public class admin implements Command {
 				for(Command c : commands) {
 					for(int j=0;j<c.getNames().length;j++) {
 						if(c.getNames()[j].equalsIgnoreCase(argument)) {
-							c.commandCode(eventMessage, args);
+							c.commandCode(eventMessage, args, true);
 						}
 					}
 				}
