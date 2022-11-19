@@ -44,6 +44,15 @@ public class hentaiImage implements Command {
 		});
 	}
 
+	public void updateList(){
+		try {
+			links = prepareArray(LOCATION);
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private String[] prepareArray(File location) throws FileNotFoundException, IOException, ParseException {
 		String[] images;
 		JSONParser json = new JSONParser();

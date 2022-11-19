@@ -8,6 +8,8 @@ import javax.security.auth.login.LoginException;
 import org.apache.hc.core5.http.ParseException;
 
 import Dinkel.Musikman.Commands.help;
+import Dinkel.Musikman.Commands.musicInit;
+import Dinkel.Musikman.Commands.updateImageList;
 import Dinkel.Musikman.Commands.Admin.admin;
 import Dinkel.Musikman.Commands.Music.join;
 import Dinkel.Musikman.Commands.Music.leave;
@@ -29,6 +31,7 @@ import Dinkel.Musikman.Commands.RandomGenerators.konachan;
 import Dinkel.Musikman.Commands.RandomGenerators.rule34random;
 import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.LogManager;
+import Dinkel.Musikman.Manager.MusicManager;
 import Dinkel.Musikman.Manager.TicketManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -42,8 +45,8 @@ import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 
 public class Musikman_Main {
-
-	public JDA jda;
+	
+	public static JDA jda;
 
 	public static String prefix = "!";
 
@@ -95,11 +98,14 @@ public class Musikman_Main {
 		manager.addCommand(new konachan());
 		manager.addCommand(new saveQueue());
 		manager.addCommand(new volume());
+		manager.addCommand(new musicInit());
+		manager.addCommand(new updateImageList());
 		//manager.addCommand(new addCustomSound());
 		manager.addCommand(new hentaiImage());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		jda.addEventListener(new LogManager());
+		jda.addEventListener(MusicManager.getInstance());
 		//jda.addEventListener(customJoinSounds.getInstance());
 
 		try {
@@ -116,6 +122,10 @@ public class Musikman_Main {
 		initSpotify();
 	}
 
+	public JDA getJDA(){
+		return this.jda;
+	}
+
 	public void initSpotify() {
 		spotifyApi = new SpotifyApi.Builder().setClientId(Information.spotify_clientId)
 				.setClientSecret(Information.spotify_clientSecret).build();
@@ -130,5 +140,4 @@ public class Musikman_Main {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-
 }

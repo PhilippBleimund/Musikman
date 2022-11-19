@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class helper {
 	public static boolean isInteger(String s) {
@@ -48,5 +49,28 @@ public class helper {
 			return new String[] {split[0], type};
 		}
 		return null;
+	}
+
+	public static String formatTime(long timeInMillis) {
+		long hours = timeInMillis / TimeUnit.HOURS.toMillis(1);
+		long minutes = timeInMillis / TimeUnit.MINUTES.toMillis(1);
+		long seconds = timeInMillis % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1);
+		
+		return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+	}
+
+	public static String getFileFormat(String name) {
+		String FileFormat = "";
+		for(int i=name.length()-1;i>0;i-=1) {
+			if(name.charAt(i) != '.')
+				FileFormat = FileFormat + name.charAt(i);
+			else
+				i = 0;
+		}
+		String reversed = "";
+		for(int i=FileFormat.length()-1;i>-1;i-=1) {
+			reversed = reversed + FileFormat.charAt(i);
+		}
+		return reversed;
 	}
 }
