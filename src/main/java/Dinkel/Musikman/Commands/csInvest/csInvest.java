@@ -9,7 +9,7 @@ import Dinkel.Musikman.Manager.Command;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class csInvest implements Command {
+public class csInvest extends Command {
 
 	ArrayList<Command> commands = new ArrayList<Command>();
 	
@@ -18,7 +18,7 @@ public class csInvest implements Command {
 	}
 	
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		
 		String argument = args.get(0);
 
@@ -27,7 +27,7 @@ public class csInvest implements Command {
         for(Command c : commands) {
             for(int j=0;j<c.getNames().length;j++) {
                 if(c.getNames()[j].equalsIgnoreCase(argument)) {
-                    c.commandCode(eventMessage, argsList);
+                    c.commandCode(eventMessage, argsList, true);
                 }
             }
         }
