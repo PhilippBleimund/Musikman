@@ -36,9 +36,10 @@ public class updateImageList extends Command {
             messageId = id;
         });;
 
-        while(messageId != ""){
+        while(messageId == ""){
             try {
                 Thread.sleep(10);
+                System.out.println("wait...");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
