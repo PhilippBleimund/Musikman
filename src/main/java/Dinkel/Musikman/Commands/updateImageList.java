@@ -115,7 +115,7 @@ public class updateImageList extends Command {
         URL url;
         String outputLine = "";
 
-            url = new URL("https://api.anonfiles.com/v2/file/oaj1t2Icyc/info");
+            url = new URL("https://api.anonfiles.com/v2/file/" + id + "/info");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
             BufferedReader in = new BufferedReader(
