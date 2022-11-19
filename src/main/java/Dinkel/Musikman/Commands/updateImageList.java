@@ -23,12 +23,12 @@ import Dinkel.Musikman.SaveData.saveManager;
 import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class updateImageList implements Command {
+public class updateImageList extends Command {
 
     String messageId = "";
 
     @Override
-    public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+    public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
         
         
         

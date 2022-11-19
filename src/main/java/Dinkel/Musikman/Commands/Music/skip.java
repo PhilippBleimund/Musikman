@@ -15,16 +15,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class skip implements Command{
+public class skip extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
 		if(!selfVoiceState.inAudioChannel()) {
-			channel.sendMessage("I need to be in a voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("I need to be in a voice channel").queue();});
 			return;
 		}
 		
@@ -32,12 +32,12 @@ public class skip implements Command{
 		GuildVoiceState memberVoiceState = member .getVoiceState();
 		
 		if(!memberVoiceState.inAudioChannel()) {
-			channel.sendMessage("You are not in a channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("You are not in a channel").queue();});
 			return;
 		}
 		
 		if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-			channel.sendMessage("we are not in the same voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("we are not in the same voice channel").queue();});
 			return;
 		}
 		
@@ -45,26 +45,26 @@ public class skip implements Command{
 		AudioPlayer audioPlayer = musicManager.audioPlayer;
 		
 		if(audioPlayer.getPlayingTrack() == null) {
-			channel.sendMessage("there is no track playing").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("there is no track playing").queue();});
 			return;
 		}
 		
 		if(args.size() <= 0) {
 			if(musicManager.scheduler.queue.size() == 0) {
-				channel.sendMessage("queue is empty").queue();
+				this.publicExec(publicExec, () -> {channel.sendMessage("queue is empty").queue();});
 				return;
 			}
 			musicManager.scheduler.nextTrack();
-			channel.sendMessage("current track skipped").queue();			
+			this.publicExec(publicExec, () -> {channel.sendMessage("current track skipped").queue();});
 		}else {
 			String arg0 = args.get(0);
 			if(!helper.isInteger(arg0)) {
-				channel.sendMessage("`" + arg0 + "` is not a valid number(1, 2, 3,...)").queue();
+				this.publicExec(publicExec, () -> {channel.sendMessage("`" + arg0 + "` is not a valid number(1, 2, 3,...)").queue();});
 				return;
 			}
 			int position = Integer.valueOf(args.get(0));
 			if(musicManager.scheduler.queue.size() > position || musicManager.scheduler.queue.size() <= 0) {
-				channel.sendMessage("track " + "#" + position + " is not on queue");
+				this.publicExec(publicExec, () -> {channel.sendMessage("track " + "#" + position + " is not on queue");});
 				return;
 			}else {
 				for(int i=0;i<position;i++) {
@@ -72,7 +72,8 @@ public class skip implements Command{
 				}
 				AudioTrack track = audioPlayer.getPlayingTrack();
 				AudioTrackInfo info = track.getInfo();
-				channel.sendMessage("skiped to `" + info.title + "`");
+				this.publicExec(publicExec, () -> {channel.sendMessage("skiped to `" + info.title + "`").queue();});
+				
 			}
 		}
 	}

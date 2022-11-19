@@ -5,10 +5,10 @@ import java.util.List;
 import Dinkel.Musikman.Manager.Command;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class adminLock implements Command{
+public class adminLock extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		// TODO Auto-generated method stub
 		
 	}
