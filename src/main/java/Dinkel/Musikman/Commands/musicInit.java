@@ -9,10 +9,10 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
 
-public class musicInit implements Command{
+public class musicInit extends Command{
     
     @Override
-    public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+    public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
         Guild guild = eventMessage.getGuild();
         List<TextChannel> textChannelsByName2 = guild.getTextChannelsByName("musicchannel", false);
         if(textChannelsByName2.isEmpty()){
