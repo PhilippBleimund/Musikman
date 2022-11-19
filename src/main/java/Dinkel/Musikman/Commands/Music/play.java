@@ -25,14 +25,15 @@ import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
 import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 
-public class play implements Command {
+public class play extends Command {
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
+		this.publicExec(publicExec, () -> {});
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 
 		if (args.isEmpty()) {
-			channel.sendMessage("add arguments").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("add arguments").queue();});
 			return;
 		}
 
@@ -48,12 +49,12 @@ public class play implements Command {
 		GuildVoiceState memberVoiceState = member.getVoiceState();
 
 		if (!memberVoiceState.inAudioChannel()) {
-			channel.sendMessage("You are not in a channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("You are not in a channel").queue();});
 			return;
 		}
 
 		if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-			channel.sendMessage("we are not in the same voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("we are not in the same voice channel").queue();});
 			return;
 		}
 
@@ -86,11 +87,11 @@ public class play implements Command {
 			int number = Integer.parseInt(arg1);
 			int size = musicManager.scheduler.queue.size();
 			if (number > size) {
-				channel.sendMessage("track number is too big").queue();
+				this.publicExec(publicExec, () -> {channel.sendMessage("track number is too big").queue();});
 				return;
 			}
 			musicManager.scheduler.directPlay(number);
-			channel.sendMessage("skiped to postion `" + number + "`").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("skiped to postion `" + number + "`").queue();});
 			return;
 		}
 

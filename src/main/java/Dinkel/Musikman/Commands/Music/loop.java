@@ -10,13 +10,13 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class loop implements Command{
+public class loop extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		if(args.size() <= 0) {
-			channel.sendMessage("add arg: `[track]`, `[queue]`, `[off]`").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("add arg: `[track]`, `[queue]`, `[off]`").queue();});
 			return;
 		}
 		
@@ -24,7 +24,7 @@ public class loop implements Command{
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
 		if(!selfVoiceState.inAudioChannel()) {
-			channel.sendMessage("I need to be in a voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("I need to be in a voice channel").queue();});
 			return;
 		}
 		
@@ -32,12 +32,12 @@ public class loop implements Command{
 		GuildVoiceState memberVoiceState = member .getVoiceState();
 		
 		if(!memberVoiceState.inAudioChannel()) {
-			channel.sendMessage("You are not in a channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("You are not in a channel").queue();});
 			return;
 		}
 		
 		if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-			channel.sendMessage("we are not in the same voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("we are not in the same voice channel").queue();});
 			return;
 		}
 		
@@ -45,15 +45,15 @@ public class loop implements Command{
 
 		if(args.get(0).equals("queue")) {
 			musicManager.scheduler.loopQueue();
-			channel.sendMessage("the queue will be looping").queue();			
+			this.publicExec(publicExec, () -> {channel.sendMessage("the queue will be looping").queue();	});
 		}else if(args.get(0).equalsIgnoreCase("track")) {
 			boolean newRepeating = !musicManager.scheduler.repeating;
 			musicManager.scheduler.repeating = newRepeating;
-			channel.sendMessageFormat("The player has been set to **%s**", newRepeating ? "repeating" : "not repeating").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessageFormat("The player has been set to **%s**", newRepeating ? "repeating" : "not repeating").queue();});
 		}else if(args.get(0).equalsIgnoreCase("off")) {
 			musicManager.scheduler.loopOffQueue();
 			musicManager.scheduler.repeating = false;
-			channel.sendMessage("All loops were disactivated").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("All loops were disactivated").queue();});
 		}
 	}
 

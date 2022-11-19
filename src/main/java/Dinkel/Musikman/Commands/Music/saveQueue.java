@@ -14,10 +14,10 @@ import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.SaveData.saveManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class saveQueue implements Command{
+public class saveQueue extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		saveManager save = new saveManager();
 		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
 		TrackScheduler scheduler = musicManager.scheduler;

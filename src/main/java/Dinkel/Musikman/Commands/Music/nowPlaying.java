@@ -14,16 +14,16 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class nowPlaying implements Command{
+public class nowPlaying extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args) {
+	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		Member self = eventMessage.getGuild().getSelfMember();
 		GuildVoiceState selfVoiceState = self.getVoiceState();
 		
 		if(!selfVoiceState.inAudioChannel()) {
-			channel.sendMessage("I need to be in a voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("I need to be in a voice channel").queue();});
 			return;
 		}
 		
@@ -31,12 +31,12 @@ public class nowPlaying implements Command{
 		GuildVoiceState memberVoiceState = member .getVoiceState();
 		
 		if(!memberVoiceState.inAudioChannel()) {
-			channel.sendMessage("You are not in a channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("You are not in a channel").queue();});
 			return;
 		}
 		
 		if(!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-			channel.sendMessage("we are not in the same voice channel").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("we are not in the same voice channel").queue();});
 			return;
 		}
 		
@@ -45,13 +45,13 @@ public class nowPlaying implements Command{
 		AudioTrack track = audioPlayer.getPlayingTrack();
 		
 		if(track == null) {
-			channel.sendMessage("there is no track playing").queue();
+			this.publicExec(publicExec, () -> {channel.sendMessage("there is no track playing").queue();});
 			return;
 		}
 		
 		AudioTrackInfo info = track.getInfo();
 		
-		channel.sendMessageFormat("now playing `%s` by `%s` (Link: <%s>", info.title, info.author, info.uri).queue();
+		this.publicExec(publicExec, () -> {channel.sendMessageFormat("now playing `%s` by `%s` (Link: <%s>", info.title, info.author, info.uri).queue();});
 	}
 
 	@Override
