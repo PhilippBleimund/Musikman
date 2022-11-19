@@ -39,7 +39,7 @@ public class help implements Command {
 		}
 
 		MessageCreateAction sendMessage = messageAction.sendMessage("**help**\n\n");
-		sendMessage.addContent("```");
+		sendMessage.addContent("```bash");
 	
 		for(int i=0;i<commands.size();i++) {
 			Command command = commands.get(i);
@@ -72,7 +72,7 @@ public class help implements Command {
 							sendMessage.addContent("[" + commandArgs[j] + "]");
 					}
 				}
-				sendMessage.addContent(" --> **`" + command.getDescription() + "`**\n");
+				sendMessage.addContent(" --> " + command.getDescription() + "\n");
 			}
 		}
 
