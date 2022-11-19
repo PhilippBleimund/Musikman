@@ -31,13 +31,18 @@ public class updateImageList extends Command {
     public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
         
         
-        
         eventMessage.getChannel().sendMessage("starting Process").queue((message) -> {
             String id = message.getId();
             messageId = id;
         });;
 
-
+        while(messageId != ""){
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         eventMessage.getChannel().editMessageById(messageId, "prepare download URL").queue();
         URL download = null;
         try {
