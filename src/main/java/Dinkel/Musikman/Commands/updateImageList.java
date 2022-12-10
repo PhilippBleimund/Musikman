@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,6 +15,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import Dinkel.Musikman.Information;
 import Dinkel.Musikman.Commands.RandomGenerators.hentaiImage;
@@ -109,9 +113,20 @@ public class updateImageList extends Command {
     private JSONObject downloadRaw(URL downloadURL) throws IOException, ParseException{
         JSONParser json = new JSONParser();
         JSONObject raw = new JSONObject();
-        InputStream in = downloadURL.openStream();
-        Scanner s = new Scanner(in).useDelimiter("\\A");
-        String result = s.hasNext() ? s.next() : "";
+        URLConnection connection = downloadURL.openConnection();
+        BufferedReader in = new BufferedReader(
+                                new InputStreamReader(
+                                    connection.getInputStream()));
+
+        StringBuilder response = new StringBuilder();
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null) 
+            response.append(inputLine);
+
+        in.close();
+
+        String result = response.toString();
         raw = (JSONObject) json.parse(result);
 
         return raw;
@@ -146,10 +161,11 @@ public class updateImageList extends Command {
 
         URL download = null;
 
-            download = new URL("https://cdn-110.anonfiles.com/" + id + "/" + name + "/1.jpg");
-
-
-        return download;
+        download = new URL("https://cdn-110.anonfiles.com/" + id + "/" + name + "/1.jpg");
+        Document doc = Jsoup.connect(download.toString()).get();
+        Element e = doc.getElementById("download-url");
+        String finalUrl = e.attr("href");
+        return new URL(finalUrl);
     }
 
     @Override

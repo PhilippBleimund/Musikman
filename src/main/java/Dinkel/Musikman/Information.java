@@ -8,6 +8,8 @@ import org.apache.commons.io.input.WindowsLineEndingInputStream;
 
 public class Information {
 
+	public static boolean MinecraftServerStatus = false;
+
 	public static final String OS = System.getProperty("os.name");
 
 	public static final String user = System.getProperty("user.name");
