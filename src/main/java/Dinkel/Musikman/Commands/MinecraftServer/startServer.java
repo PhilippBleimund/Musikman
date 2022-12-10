@@ -23,7 +23,7 @@ public class startServer extends Command{
         GpioPinDigitalOutput myPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "My LED", PinState.HIGH);
         myPin.setShutdownOptions(true, PinState.LOW, PinPullResistance.OFF);
         
-        String arg = args.get(0);
+        String arg = args.get(1);
 
         if(arg.equals(getArgs()[0])){
             System.out.print("starting");
