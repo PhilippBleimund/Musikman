@@ -20,16 +20,18 @@ public class startServer extends Command{
 
     @Override
     public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
-        GpioPinDigitalOutput myPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "My LED", PinState.LOW);
+        GpioPinDigitalOutput myPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "My LED", PinState.HIGH);
         myPin.setShutdownOptions(true, PinState.LOW, PinPullResistance.OFF);
         
         String arg = args.get(0);
 
         if(arg.equals(getArgs()[0])){
+            System.out.print("starting");
             myPin.pulse(100);
         }
 
         if(arg.equals(getArgs()[1])){
+            System.out.print("stopping");
             myPin.pulse(2000);
         }
     }
