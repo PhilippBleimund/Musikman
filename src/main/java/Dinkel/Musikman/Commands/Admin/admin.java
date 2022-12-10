@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Dinkel.Musikman.Information;
+import Dinkel.Musikman.Commands.MinecraftServer.startServer;
 import Dinkel.Musikman.Manager.Command;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -18,6 +19,7 @@ public class admin extends Command {
 		commands.add(new adminProcessId());
 		commands.add(new restart());
 		commands.add(new shutdown());
+		commands.add(new startServer());
 	}
 	
 	@Override
