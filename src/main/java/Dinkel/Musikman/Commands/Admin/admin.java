@@ -19,7 +19,7 @@ public class admin extends Command {
 		commands.add(new adminProcessId());
 		commands.add(new restart());
 		commands.add(new shutdown());
-		commands.add(new startServer());
+		//commands.add(new startServer());
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class admin extends Command {
 		long idLong = eventMessage.getAuthor().getIdLong();
 		for(int i=0;i<Information.admins.length;i++) {
 			if(idLong == Information.admins[i]) {
-				i = Integer.MAX_VALUE;
+				i = 1000;
 				for(Command c : commands) {
 					for(int j=0;j<c.getNames().length;j++) {
 						if(c.getNames()[j].equalsIgnoreCase(argument)) {
