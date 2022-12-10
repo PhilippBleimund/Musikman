@@ -15,8 +15,7 @@ public class adminLock extends Command{
 
 	@Override
 	public String[] getNames() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[]{"Lock"};
 	}
 
 	@Override
