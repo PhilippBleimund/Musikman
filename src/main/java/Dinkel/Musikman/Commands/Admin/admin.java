@@ -19,7 +19,7 @@ public class admin extends Command {
 		commands.add(new adminProcessId());
 		commands.add(new restart());
 		commands.add(new shutdown());
-		//commands.add(new startServer());
+		commands.add(new startServer());
 	}
 	
 	@Override
