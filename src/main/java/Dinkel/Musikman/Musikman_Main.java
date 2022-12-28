@@ -11,6 +11,7 @@ import Dinkel.Musikman.Commands.help;
 import Dinkel.Musikman.Commands.musicInit;
 import Dinkel.Musikman.Commands.updateImageList;
 import Dinkel.Musikman.Commands.Admin.admin;
+import Dinkel.Musikman.Commands.MinecraftServer.getIp;
 import Dinkel.Musikman.Commands.Music.join;
 import Dinkel.Musikman.Commands.Music.leave;
 import Dinkel.Musikman.Commands.Music.loop;
@@ -102,6 +103,7 @@ public class Musikman_Main {
 		manager.addCommand(new updateImageList());
 		//manager.addCommand(new addCustomSound());
 		manager.addCommand(new hentaiImage());
+		manager.addCommand(new getIp());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		jda.addEventListener(new LogManager());
