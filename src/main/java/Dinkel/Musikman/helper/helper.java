@@ -5,6 +5,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+
+import net.dv8tion.jda.api.entities.User;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -96,4 +99,10 @@ public class helper {
             }
         }
     }	
+
+	public static void sendPrivateMessage(User user, String content) {
+		user.openPrivateChannel()
+			.flatMap(channel -> channel.sendMessage(content))
+			.queue();
+	}
 }
