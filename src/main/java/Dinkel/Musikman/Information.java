@@ -34,6 +34,23 @@ public class Information {
 		return false;
 	}
 	
+	public static final long[] minecraftPlayer = new long[]{
+		406540701762060318l,	//Philipp Bleimund
+		395012173702758411l,	//Simon Krampe
+		242226144810762260l,	//Nuri
+		397426524179005440l,	//Simeon Wortmann
+		411636395866849280l		//Lucas
+	}
+
+	public static boolean isMinecraftPlayer(long UserId) {
+		for(int i=0;i<minecraftPlayer.length;i++) {
+			if(UserId == minecraftPlayer[i]) {
+				return true;
+			}
+		}
+		return false;
+	}	
+
 	private static final String[] linuxCustomSounds = new String[]{"/home/","/Music/customSounds"};
 	private static final String[] windowsCustomSounds = new String[]{"C:\\Users\\", "\\Music\\Musikman"};
 	public static File getCustomSounds() {
