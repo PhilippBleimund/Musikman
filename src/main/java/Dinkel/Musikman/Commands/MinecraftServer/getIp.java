@@ -25,7 +25,7 @@ public class getIp extends Command{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            messageAction.sendMessage("The current ip is: '" + ip + "'").queue();
+            helper.sendPrivateMessage(eventMessage.getAuthor(), "The current ip is: `" + ip + "`");
         }else{
             messageAction.sendMessage("You are not allowed to use this command. Please contact one of the Server Admins: \n ```Philipp Bleimund: <@" + Information.admins[0] + "> \nSimon: <@" + Information.admins[1] + ">```").queue();
         }
