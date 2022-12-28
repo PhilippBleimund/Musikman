@@ -40,7 +40,7 @@ public class Information {
 		242226144810762260l,	//Nuri
 		397426524179005440l,	//Simeon Wortmann
 		411636395866849280l		//Lucas
-	}
+	};
 
 	public static boolean isMinecraftPlayer(long UserId) {
 		for(int i=0;i<minecraftPlayer.length;i++) {
