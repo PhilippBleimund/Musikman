@@ -39,7 +39,8 @@ public class Information {
 		395012173702758411l,	//Simon Krampe
 		242226144810762260l,	//Nuri
 		397426524179005440l,	//Simeon Wortmann
-		411636395866849280l		//Lucas
+		411636395866849280l,		//Lucas
+		326795199520964618l		//Tim
 	};
 
 	public static boolean isMinecraftPlayer(long UserId) {
