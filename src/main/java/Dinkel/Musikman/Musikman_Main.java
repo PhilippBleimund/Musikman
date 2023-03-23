@@ -8,7 +8,7 @@ import javax.security.auth.login.LoginException;
 import org.apache.hc.core5.http.ParseException;
 
 import Dinkel.Musikman.Commands.help;
-import Dinkel.Musikman.Commands.musicInit;
+import Dinkel.Musikman.Commands.status;
 import Dinkel.Musikman.Commands.updateImageList;
 import Dinkel.Musikman.Commands.Admin.admin;
 import Dinkel.Musikman.Commands.MinecraftServer.getIp;
@@ -32,7 +32,6 @@ import Dinkel.Musikman.Commands.RandomGenerators.konachan;
 import Dinkel.Musikman.Commands.RandomGenerators.rule34random;
 import Dinkel.Musikman.Manager.CommandManager;
 import Dinkel.Musikman.Manager.LogManager;
-import Dinkel.Musikman.Manager.MusicManager;
 import Dinkel.Musikman.Manager.TicketManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -99,15 +98,14 @@ public class Musikman_Main {
 		manager.addCommand(new konachan());
 		manager.addCommand(new saveQueue());
 		manager.addCommand(new volume());
-		manager.addCommand(new musicInit());
 		manager.addCommand(new updateImageList());
+		manager.addCommand(new status());
 		//manager.addCommand(new addCustomSound());
 		manager.addCommand(new hentaiImage());
 		manager.addCommand(new getIp());
 		jda.addEventListener(manager);
 		jda.addEventListener(TicketManager.getInstance());
 		jda.addEventListener(new LogManager());
-		jda.addEventListener(MusicManager.getInstance());
 		//jda.addEventListener(customJoinSounds.getInstance());
 
 		try {
