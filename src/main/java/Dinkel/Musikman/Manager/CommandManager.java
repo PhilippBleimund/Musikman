@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import Dinkel.Musikman.Musikman_Main;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 public class CommandManager extends ListenerAdapter {
 
@@ -27,6 +30,31 @@ public class CommandManager extends ListenerAdapter {
 			String arg = eventMessage.getMessage().getContentRaw().split("\\s+")[0];
 			for (int i = 0; i < c.getNames().length; i++) {
 				if (arg.equalsIgnoreCase(Musikman_Main.prefix + c.getNames()[i])) {
+					c.commandCode(eventMessage, argsList, true);
+				}
+			}
+
+		}
+	}
+
+	@Override
+	public void onGuildReady(GuildReadyEvent event) {
+		List<CommandData> slashCommands = new ArrayList<CommandData>();
+
+		for(Command c : commands){
+			slashCommands.add(c.getCommandData());
+		}
+
+		event.getGuild().updateCommands().addCommands(slashCommands).queue();
+	}
+
+	@Override
+	public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+		String name = event.getName();
+		
+		for (Command c : commands) {
+			for (int i = 0; i < c.getNames().length; i++) {
+				if (name.equalsIgnoreCase(c.getNames()[i])) {
 					c.commandCode(eventMessage, argsList, true);
 				}
 			}
