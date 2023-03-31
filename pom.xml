@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-alpha.21</version>
+			<version>5.0.0-beta.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.walkyst</groupId>
@@ -65,6 +65,12 @@
           <artifactId>jsoup</artifactId>
           <version>1.15.4</version>
       </dependency>	
+
+		<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.11.0</version>
+</dependency>
 
 <dependency>
     <groupId>com.github.oshi</groupId>
