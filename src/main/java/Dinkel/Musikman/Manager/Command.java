@@ -24,6 +24,18 @@ public abstract class Command {
 
 	public abstract void slashImplementation(SlashCommandInteractionEvent eventMessage, boolean publicExec);
 
+	protected class ImplementationData{
+		public Event event;
+		public boolean publicExec;
+		public InvokeMethod type;
+
+		public ImplementationData(Event event, boolean publicExec, InvokeMethod type){
+			this.event = event;
+			this.publicExec = publicExec;
+			this.type = type;
+		}
+	}
+
 	protected void publicExec(boolean pub, Runnable r){
 		if(pub)
 			r.run();
