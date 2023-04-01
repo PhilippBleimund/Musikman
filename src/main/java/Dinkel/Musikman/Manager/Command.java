@@ -12,6 +12,8 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 public abstract class Command {
 
+	public CommandData commandAPI;
+
 	public enum InvokeMethod{
 		TEXT,
 		SLASH,
@@ -58,6 +60,9 @@ public abstract class Command {
 	public abstract boolean NSFW();
 
 	protected CommandData getCommandData(){
-		return Commands.slash(getNames()[0], getDescription());
+		if(commandAPI == null)
+			return Commands.slash(getNames()[0], getDescription());
+		else
+			return commandAPI;
 	}
 }
