@@ -70,5 +70,8 @@ public class leave extends Command{
 		return true;
 	}
 
-	
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

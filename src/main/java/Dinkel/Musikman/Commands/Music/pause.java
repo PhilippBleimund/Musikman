@@ -70,4 +70,8 @@ public class pause extends Command{
 		return true;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

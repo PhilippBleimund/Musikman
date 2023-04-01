@@ -81,4 +81,8 @@ public class move extends Command{
 		return true;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

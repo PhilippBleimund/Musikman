@@ -160,4 +160,9 @@ public class play extends Command {
 			return null;
 		}
 	}
+
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

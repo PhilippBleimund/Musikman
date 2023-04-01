@@ -88,4 +88,8 @@ public class remove extends Command{
 		return true;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

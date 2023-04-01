@@ -188,4 +188,8 @@ public class updateImageList extends Command {
         return true;
     }
 
+    @Override
+	public boolean NSFW() {
+		return false;
+	}
 }

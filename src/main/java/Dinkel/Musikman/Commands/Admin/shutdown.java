@@ -32,4 +32,8 @@ public class shutdown extends Command{
 		return true;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

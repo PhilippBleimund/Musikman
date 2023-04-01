@@ -55,4 +55,9 @@ public class join extends Command {
 	public boolean showInHelp() {
 		return true;
 	}
+
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

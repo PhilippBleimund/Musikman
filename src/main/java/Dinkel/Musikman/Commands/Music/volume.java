@@ -52,6 +52,7 @@ public class volume extends Command{
 			int intArg = Integer.valueOf(arg0);
 			if(intArg >= 0 && intArg <= 100) {
 				audioPlayer.setVolume(intArg);
+				audioPlayer.
 				this.publicExec(publicExec, () -> {channel.sendMessage("set audio player volume to `" + intArg + "`").queue();});
 			}
 		}
@@ -77,4 +78,8 @@ public class volume extends Command{
 		return true;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

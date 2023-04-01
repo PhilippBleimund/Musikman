@@ -69,4 +69,9 @@ public class restart extends Command{
 		return true;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
+
 }

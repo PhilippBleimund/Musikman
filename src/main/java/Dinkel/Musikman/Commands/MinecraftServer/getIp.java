@@ -61,4 +61,8 @@ public class getIp extends Command{
         return false;
     }
     
+    @Override
+	public boolean NSFW() {
+		return false;
+	}
 }

@@ -36,4 +36,9 @@ public class adminLock extends Command{
 		return false;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
+
 }

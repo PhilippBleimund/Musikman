@@ -87,4 +87,8 @@ public class catrandom extends Command{
 		return true;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return false;
+	}
 }

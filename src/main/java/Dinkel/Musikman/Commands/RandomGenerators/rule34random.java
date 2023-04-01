@@ -92,4 +92,8 @@ public class rule34random extends Command{
 		return true;
 	}
 
+	@Override
+	public boolean NSFW() {
+		return true;
+	}
 }

@@ -60,4 +60,8 @@ public class konachan extends Command{
 		return true;
 	}
 	
+	@Override
+	public boolean NSFW() {
+		return true;
+	}
 }
