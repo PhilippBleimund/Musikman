@@ -2,13 +2,16 @@ package Dinkel.Musikman.Manager;
 
 import java.util.List;
 
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 public abstract class Command {
 
-	public abstract void commandCode(MessageReceivedEvent  eventMessage, List<String> args, boolean publicExec);
+	public abstract void textImplementation(MessageReceivedEvent  eventMessage, List<String> args, boolean publicExec);
+
+	public abstract void slashImplementation(SlashCommandInteractionEvent eventMessage, boolean publicExec);
 
 	protected void publicExec(boolean pub, Runnable r){
 		if(pub)
