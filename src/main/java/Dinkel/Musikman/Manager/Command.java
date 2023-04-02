@@ -1,6 +1,7 @@
 package Dinkel.Musikman.Manager;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.Event;
@@ -46,17 +47,33 @@ public abstract class Command {
 	}
 
 	protected Runnable createMessageRunnable(Event event, MessageCreateData message, InvokeMethod method, boolean onlyUser){
+		return createMessageRunnable(event, message, method, onlyUser, null);
+	}
+
+	protected Runnable createMessageRunnable(Event event, MessageCreateData message, InvokeMethod method, boolean onlyUser, Consumer c){
 		switch(method){
 			case TEXT:
 				MessageReceivedEvent textEvent = (MessageReceivedEvent) event;
 				TextChannel channel = textEvent.getChannel().asTextChannel();
-				return () -> channel.sendMessage(message).queue();
+				if(c == null){
+					return () -> channel.sendMessage(message).queue();
+				}else{
+					return () -> channel.sendMessage(message).queue(c);
+				}
 			case SLASH:
 				SlashCommandInteractionEvent slashEvent = (SlashCommandInteractionEvent) event;
-				return () -> slashEvent.reply(message).setEphemeral(onlyUser).queue();
+				if(c == null){
+					return () -> slashEvent.reply(message).setEphemeral(onlyUser).queue();
+				}else{
+					return () -> slashEvent.reply(message).setEphemeral(onlyUser).queue(c);
+				}
 			case SLASH_DELAY:
 				SlashCommandInteractionEvent slashDelayEvent = (SlashCommandInteractionEvent) event;
-				return () -> slashDelayEvent.getHook().sendMessage(message).setEphemeral(onlyUser).queue();
+				if(c == null){
+					return () -> slashDelayEvent.getHook().sendMessage(message).setEphemeral(onlyUser).queue();
+				}else{
+					return () -> slashDelayEvent.getHook().sendMessage(message).setEphemeral(onlyUser).queue(c);
+				}
 		}
 		return () -> {};
 	}
