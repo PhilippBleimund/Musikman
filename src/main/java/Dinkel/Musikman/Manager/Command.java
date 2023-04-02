@@ -42,10 +42,10 @@ public abstract class Command {
 	}
 	
 	protected Runnable createMessageRunnable(Event event, MessageCreateData message, InvokeMethod method){
-		return createMessageRunnable(event, message, method, false);
+		return createMessageRunnable(event, message, method, true);
 	}
 
-	protected Runnable createMessageRunnable(Event event, MessageCreateData message, InvokeMethod method, boolean slashGlobal){
+	protected Runnable createMessageRunnable(Event event, MessageCreateData message, InvokeMethod method, boolean onlyUser){
 		switch(method){
 			case TEXT:
 				MessageReceivedEvent textEvent = (MessageReceivedEvent) event;
@@ -53,10 +53,10 @@ public abstract class Command {
 				return () -> channel.sendMessage(message).queue();
 			case SLASH:
 				SlashCommandInteractionEvent slashEvent = (SlashCommandInteractionEvent) event;
-				return () -> slashEvent.reply(message).setEphemeral(slashGlobal).queue();
+				return () -> slashEvent.reply(message).setEphemeral(onlyUser).queue();
 			case SLASH_DELAY:
 				SlashCommandInteractionEvent slashDelayEvent = (SlashCommandInteractionEvent) event;
-				return () -> slashDelayEvent.getHook().sendMessage(message).setEphemeral(slashGlobal).queue();
+				return () -> slashDelayEvent.getHook().sendMessage(message).setEphemeral(onlyUser).queue();
 		}
 		return () -> {};
 	}
