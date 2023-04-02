@@ -8,12 +8,14 @@ import Dinkel.Musikman.Manager.Command;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 public class loop extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
+	public void textImplementation(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 		if(args.size() <= 0) {
 			this.publicExec(publicExec, () -> {channel.sendMessage("add arg: `[track]`, `[queue]`, `[off]`").queue();});
@@ -55,6 +57,11 @@ public class loop extends Command{
 			musicManager.scheduler.repeating = false;
 			this.publicExec(publicExec, () -> {channel.sendMessage("All loops were disactivated").queue();});
 		}
+	}
+
+	@Override
+	public void slashImplementation(SlashCommandInteractionEvent eventMessage, boolean publicExec) {
+		this.publicExec(publicExec, this.createMessageRunnable(eventMessage, new MessageCreateBuilder().setContent("this slash command is still in work").build(), InvokeMethod.SLASH));
 	}
 
 	@Override
