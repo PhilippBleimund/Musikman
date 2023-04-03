@@ -10,6 +10,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.interactions.InteractionHook;
 
 public abstract class Command {
 
@@ -47,32 +49,32 @@ public abstract class Command {
 	}
 
 	protected Runnable createMessageRunnable(Event event, MessageCreateData message, InvokeMethod method, boolean onlyUser){
-		return createMessageRunnable(event, message, method, onlyUser, null);
+		return createMessageRunnable(event, message, method, onlyUser, null, null);
 	}
 
-	protected Runnable createMessageRunnable(Event event, MessageCreateData message, InvokeMethod method, boolean onlyUser, Consumer c){
+	protected Runnable createMessageRunnable(Event event, MessageCreateData message, InvokeMethod method, boolean onlyUser, Consumer<? super Message> consumeMessage, Consumer<? super InteractionHook> consumeInteractionHook){
 		switch(method){
 			case TEXT:
 				MessageReceivedEvent textEvent = (MessageReceivedEvent) event;
 				TextChannel channel = textEvent.getChannel().asTextChannel();
-				if(c == null){
+				if(consumeMessage == null){
 					return () -> channel.sendMessage(message).queue();
 				}else{
-					return () -> channel.sendMessage(message).queue(c);
+					return () -> channel.sendMessage(message).queue(consumeMessage);
 				}
 			case SLASH:
 				SlashCommandInteractionEvent slashEvent = (SlashCommandInteractionEvent) event;
-				if(c == null){
+				if(consumeInteractionHook == null){
 					return () -> slashEvent.reply(message).setEphemeral(onlyUser).queue();
 				}else{
-					return () -> slashEvent.reply(message).setEphemeral(onlyUser).queue(c);
+					return () -> slashEvent.reply(message).setEphemeral(onlyUser).queue(consumeInteractionHook);
 				}
 			case SLASH_DELAY:
 				SlashCommandInteractionEvent slashDelayEvent = (SlashCommandInteractionEvent) event;
-				if(c == null){
+				if(consumeMessage == null){
 					return () -> slashDelayEvent.getHook().sendMessage(message).setEphemeral(onlyUser).queue();
 				}else{
-					return () -> slashDelayEvent.getHook().sendMessage(message).setEphemeral(onlyUser).queue(c);
+					return () -> slashDelayEvent.getHook().sendMessage(message).setEphemeral(onlyUser).queue(consumeMessage);
 				}
 		}
 		return () -> {};
