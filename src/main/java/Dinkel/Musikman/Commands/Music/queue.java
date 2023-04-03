@@ -13,55 +13,69 @@ import Dinkel.Musikman.Lavaplayer.PlayerManager;
 import Dinkel.Musikman.Manager.Command;
 import Dinkel.Musikman.Manager.TicketManager;
 import Dinkel.Musikman.Tickets.queueTXTTicket;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 public class queue extends Command{
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
-		TextChannel channel = eventMessage.getChannel().asTextChannel();
-		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(eventMessage.getGuild());
+	public void textImplementation(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
+		Guild guild = eventMessage.getGuild();
+
+		mergedImplementation(guild, new ImplementationData(eventMessage, publicExec, InvokeMethod.TEXT));
+	}
+
+	@Override
+	public void slashImplementation(SlashCommandInteractionEvent eventMessage, boolean publicExec) {
+		Guild guild = eventMessage.getGuild();
+
+		mergedImplementation(guild, new ImplementationData(eventMessage, publicExec, InvokeMethod.SLASH));
+	}
+
+	public void mergedImplementation(Guild guild, ImplementationData data){
+		GuildMusicManager musicManager = PlayerManager.getInstance().getMusikManager(guild);
 		BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
 		
 		if(queue.isEmpty()) {
-			this.publicExec(publicExec, () -> {channel.sendMessage("the queue is empty").queue();});
+			this.publicExec(data.publicExec, this.createMessageRunnable(data.event, new MessageCreateBuilder().setContent("the queue is empty").build(), data.type));
 			return;
 		}
 		
 		int trackCount = Math.min(queue.size(), 20);
 		List<AudioTrack> trackList = new ArrayList<>(queue);
-		MessageCreateAction messageAction = channel.sendMessage("**Current Queue:**\n");
+		StringBuilder messageAction = new StringBuilder("**Current Queue:**\n");
 		
 		for(int i=0;i<trackCount;i++) {
 			AudioTrack track = trackList.get(i);
 			AudioTrackInfo info = track.getInfo();
 			
-			messageAction.addContent("#")
-				.addContent(String.valueOf(i + 1))
-				.addContent(" `")
-				.addContent(info.title)
-				.addContent(" by ")
-				.addContent(info.author)
-				.addContent("` [`")
-				.addContent(formatTime(track.getDuration()))
-				.addContent("`]\n");
+			messageAction.append("#")
+				.append(String.valueOf(i + 1))
+				.append(" `")
+				.append(info.title)
+				.append(" by ")
+				.append(info.author)
+				.append("` [`")
+				.append(formatTime(track.getDuration()))
+				.append("`]\n");
 		}
 		
 		if(trackList.size() > trackCount) {
-			messageAction.addContent("And `")
-				.addContent(String.valueOf(trackList.size() - trackCount))
-				.addContent("` more...");
-				this.publicExec(publicExec, () -> {
-					messageAction.queue(message -> {
-						message.addReaction(Emoji.fromUnicode("U+23EC")).queue();
-						TicketManager.getInstance().addTicket(new queueTXTTicket(message.getIdLong(), trackList));
-				});});
-				
+			messageAction.append("And `")
+				.append(String.valueOf(trackList.size() - trackCount))
+				.append("` more...");
+
+				this.publicExec(data.publicExec, this.createMessageRunnable(data.event, new MessageCreateBuilder().setContent(messageAction.toString()).build(), data.type, false, message -> {
+					message.addReaction(Emoji.fromUnicode("U+23EC")).queue();
+					TicketManager.getInstance().addTicket(new queueTXTTicket(message.getIdLong(), trackList));
+				}, null));				
 		}else {
-			this.publicExec(publicExec, () -> {messageAction.queue();});
+			this.publicExec(data.publicExec, this.createMessageRunnable(data.event, new MessageCreateBuilder().setContent(messageAction.toString()).build(), data.type));
 		}
 	}
 	
