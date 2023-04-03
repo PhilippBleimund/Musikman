@@ -14,7 +14,9 @@ import Dinkel.Musikman.helper.helper;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.IPlaylistItem;
@@ -28,7 +30,7 @@ import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest;
 public class play extends Command {
 
 	@Override
-	public void commandCode(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
+	public void textImplementation(MessageReceivedEvent eventMessage, List<String> args, boolean publicExec) {
 		this.publicExec(publicExec, () -> {});
 		TextChannel channel = eventMessage.getChannel().asTextChannel();
 
@@ -96,6 +98,11 @@ public class play extends Command {
 		}
 
 		PlayerManager.getInstance().loadAndPlay(channel, link);
+	}
+
+	@Override
+	public void slashImplementation(SlashCommandInteractionEvent eventMessage, boolean publicExec) {
+		this.publicExec(publicExec, this.createMessageRunnable(eventMessage, new MessageCreateBuilder().setContent("this slash command is still in work").build(), InvokeMethod.SLASH));
 	}
 
 	@Override
